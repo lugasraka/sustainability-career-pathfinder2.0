@@ -4,6 +4,7 @@ import "./globals.css";
 import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { ThemeProvider } from "@/components/theme-provider";
+import { SITE_URL } from "@/lib/site-url";
 
 const inter = Inter({
   variable: "--font-sans",
@@ -16,6 +17,7 @@ const bricolage = Bricolage_Grotesque({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "Sustainability Career Pathfinder 2.0",
     template: "%s · Sustainability Pathfinder",
