@@ -26,7 +26,7 @@ The original [Sustainability Career Pathfinder](https://sustainabilitypathfinder
 - Results: top 3 matches, five-pillar radar, skill delta matrix, entry/mid/senior pivot framing, 90-day plan
 - "Why this match" card: coverage %, gap penalties, credits and bonuses itemized
 - Path explorer with live search, demand and pillar filters, removable filter chips
-- Dark mode (light / dark / system), Inter + Bricolage Grotesque type system
+- Dark mode (light / dark), Inter + Bricolage Grotesque type system
 - Seed data: 17 paths, 129 skills, 68 portfolio projects, 52 certifications
 
 ## Tech stack

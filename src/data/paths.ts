@@ -15,7 +15,6 @@ export const PATHS: CareerPath[] = [
   path({
     slug: "esg-reporting",
     title: "ESG & Sustainability Reporting",
-    emoji: "📊",
     tagline: "Measure, disclose, and improve corporate sustainability performance.",
     overview: [
       "ESG and sustainability reporting professionals collect data, apply disclosure frameworks (GRI, ISSB, CSRD, SASB), and produce annual reports that show how a company manages environmental, social and governance risk. The job mixes finance, data, and regulation: you translate what a company actually does into audited, decision-useful disclosure.",
@@ -35,7 +34,6 @@ export const PATHS: CareerPath[] = [
   path({
     slug: "climate-policy",
     title: "Climate Policy & Governance",
-    emoji: "🏛️",
     tagline: "Shape the rules that drive systemic climate action.",
     overview: [
       "Climate policy professionals analyze regulations, draft policy briefs, and advise governments, NGOs and companies on how to design effective climate and environmental policy. Work ranges from national NDC reviews to municipal adaptation plans and corporate regulatory-affairs strategy.",
@@ -55,7 +53,6 @@ export const PATHS: CareerPath[] = [
   path({
     slug: "climate-communications",
     title: "Climate Communications & Advocacy",
-    emoji: "📢",
     tagline: "Move audiences from awareness to action.",
     overview: [
       "Climate communicators translate science and policy into stories, campaigns, and content that change minds and behaviors across audiences. The work needs editorial judgment and campaign discipline: message-market fit for climate-active NGOs, agencies, media, and increasingly in-house corporate teams.",
@@ -75,7 +72,6 @@ export const PATHS: CareerPath[] = [
   path({
     slug: "carbon-markets",
     title: "Carbon Markets & Climate Finance",
-    emoji: "💹",
     tagline: "Channel capital into climate solutions.",
     overview: [
       "Professionals in this space develop, finance, trade and analyze carbon credits, climate funds, and green financial products. The work spans project origination (REDD+, cookstoves, DAC), compliance markets (EU ETS, CORSIA), and the voluntary carbon market's integrity rebuild under ICVCM.",
@@ -95,7 +91,6 @@ export const PATHS: CareerPath[] = [
   path({
     slug: "renewable-energy",
     title: "Renewable Energy & Clean Tech",
-    emoji: "⚡",
     tagline: "Build and scale the technology of the energy transition.",
     overview: [
       "Professionals in renewables and clean tech develop, finance, deploy and operate solar, wind, storage, EV, hydrogen and grid solutions. Roles split across technical (engineering, modeling), commercial (development, PPAs), and finance (project finance) tracks, all feeding one of the largest capital deployments in history.",
@@ -115,7 +110,6 @@ export const PATHS: CareerPath[] = [
   path({
     slug: "sustainability-data",
     title: "Sustainability Data & Analytics",
-    emoji: "🔬",
     tagline: "Turn sustainability data into decisions.",
     overview: [
       "Sustainability data professionals build datasets, dashboards, models and tools that help organizations measure and improve environmental and social performance. It's standard data engineering, applied to unusual inputs: emission factors, supplier surveys, satellite feeds, and unstructured disclosure text.",
@@ -135,7 +129,6 @@ export const PATHS: CareerPath[] = [
   path({
     slug: "sustainable-supply-chain",
     title: "Sustainable Supply Chains & Procurement",
-    emoji: "🔗",
     tagline: "Decarbonize and ethicalize global value chains.",
     overview: [
       "Sustainable supply chain professionals work with suppliers to measure Scope 3 emissions, improve labor and environmental practices, and source responsibly. Half the job is diplomacy (getting 200 suppliers to disclose), half is data (building the spend models that show where impact concentrates).",
@@ -155,7 +148,6 @@ export const PATHS: CareerPath[] = [
   path({
     slug: "circular-economy",
     title: "Circular Economy & Waste Management",
-    emoji: "♻️",
     tagline: "Design out waste. Design in regeneration.",
     overview: [
       "Circular economy professionals redesign products, business models and material flows to eliminate waste and keep resources in use at their highest value. The work spans design and hard numbers: life cycle assessment, material flow analysis, and end-of-life modeling.",
@@ -175,7 +167,6 @@ export const PATHS: CareerPath[] = [
   path({
     slug: "biodiversity-conservation",
     title: "Nature, Biodiversity & Conservation",
-    emoji: "🦋",
     tagline: "Protect and restore the living systems we depend on.",
     overview: [
       "Biodiversity and conservation professionals work on habitat protection, restoration, biodiversity credits, and the emerging TNFD nature disclosure framework. The path spans field science, geospatial analysis, and, increasingly, corporate nature strategy as disclosure regimes mature.",
@@ -195,7 +186,6 @@ export const PATHS: CareerPath[] = [
   path({
     slug: "green-building",
     title: "Green Building & Urban Sustainability",
-    emoji: "🏗️",
     tagline: "Design the buildings and cities of a low-carbon future.",
     overview: [
       "Green building professionals apply LEED, BREEAM, WELL and embodied-carbon practices to design, certify and operate sustainable buildings and urban developments. The path runs through architecture and engineering firms, real estate owners, and urban planning bodies.",
@@ -215,7 +205,6 @@ export const PATHS: CareerPath[] = [
   path({
     slug: "environmental-consulting",
     title: "Environmental Consulting",
-    emoji: "🧭",
     tagline: "Advise clients across industries on sustainability strategy and compliance.",
     overview: [
       "Environmental consultants help companies design strategies, comply with regulation, measure impacts and improve performance across ESG topics. It is the generalist path: breadth across frameworks and sectors, with depth added by specialization (carbon, CSRD, supply chain, nature).",
@@ -235,7 +224,6 @@ export const PATHS: CareerPath[] = [
   path({
     slug: "community-sustainability",
     title: "Sustainable Agriculture & Food Systems",
-    emoji: "🌱",
     tagline: "Transform how we grow, distribute, and eat food.",
     overview: [
       "Sustainable food systems professionals work on regenerative agriculture, food security, sustainable sourcing, and community-led development. The path spans NGOs, foundations, corporates (food & agri), agri-startups and government, with field program roles and corporate sourcing roles emphasizing different skills.",
@@ -255,7 +243,6 @@ export const PATHS: CareerPath[] = [
   path({
     slug: "education-capacity-building",
     title: "Sustainability Education & Capacity Building",
-    emoji: "🎓",
     tagline: "Grow the talent and awareness the climate transition needs.",
     overview: [
       "Sustainability educators design curricula, workshops, and training programs that build climate and sustainability literacy across schools, universities, corporates, NGOs and communities. The path requires both pedagogy and subject-matter depth: the best practitioners design learning experiences and hold technical credibility on climate content.",
@@ -275,7 +262,6 @@ export const PATHS: CareerPath[] = [
   path({
     slug: "programs-project-management",
     title: "Sustainability Programs & Project Management",
-    emoji: "🗂️",
     tagline: "Turn sustainability strategy into on-the-ground delivery.",
     overview: [
       "Program and project managers plan, coordinate, and deliver sustainability initiatives, ESG programs, climate projects, and development interventions, on time, on budget, and with measurable outcomes. Every kind of organization needs this role: corporates, NGOs, foundations, government and UN agencies.",
@@ -295,7 +281,6 @@ export const PATHS: CareerPath[] = [
   path({
     slug: "partnerships-stakeholder-engagement",
     title: "Sustainability Partnerships & Stakeholder Engagement",
-    emoji: "🤝",
     tagline: "Build the coalitions that make sustainability work.",
     overview: [
       "Partnerships and engagement professionals connect companies, governments, NGOs and communities. The job is designing collaborations, managing relationships, and enabling collective action. Typical formats: multipartite platforms, corporate–NGO alliances, and community engagement processes.",
@@ -315,7 +300,6 @@ export const PATHS: CareerPath[] = [
   path({
     slug: "research-knowledge-management",
     title: "Sustainability Research & Knowledge Management",
-    emoji: "🔎",
     tagline: "Turn evidence into insight that drives climate action.",
     overview: [
       "Researchers and knowledge managers generate, curate, and share evidence: running studies, producing briefs and reports, and building the knowledge systems that inform decisions. The path spans think tanks, universities, NGOs, foundations, UN agencies and corporate strategy teams.",
@@ -335,7 +319,6 @@ export const PATHS: CareerPath[] = [
   path({
     slug: "grant-writing-mobilization",
     title: "Grant Writing & Climate Resource Mobilization",
-    emoji: "💰",
     tagline: "Unlock the funding that makes climate work happen.",
     overview: [
       "Grant writers and resource mobilization specialists identify funders, craft proposals, and secure the grants, contracts and partnerships that finance sustainability and climate initiatives. These are the people who keep NGOs and climate startups funded: funders include GCF, GEF, the Adaptation Fund, EU programs and philanthropy.",

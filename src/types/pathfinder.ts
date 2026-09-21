@@ -43,7 +43,6 @@ export interface PathSkillRequirement {
 export interface CareerPath {
   slug: string;
   title: string;
-  emoji: string;
   tagline: string;
   overview: string[];
   demand: DemandLevel;

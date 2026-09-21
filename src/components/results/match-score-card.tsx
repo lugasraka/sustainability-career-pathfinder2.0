@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/card";
 import { DemandBadge } from "@/components/explorer/demand-badge";
 import { PillarRadar } from "@/components/results/pillar-radar";
+import { PathIcon } from "@/components/shared/path-icon";
 import { PATH_BY_SLUG } from "@/data/paths";
 import { PILLAR_META } from "@/lib/pillars";
 import { useCountUp } from "@/lib/hooks/use-count-up";
@@ -52,9 +53,7 @@ export function MatchScoreCard({
       <CardHeader>
         <div className="flex items-start justify-between gap-3">
           <div className="flex items-center gap-3">
-            <span className="text-3xl" aria-hidden>
-              {path.emoji}
-            </span>
+            <PathIcon slug={path.slug} />
             <div>
               <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
                 Match #{rank}

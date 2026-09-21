@@ -1,15 +1,13 @@
 import Link from "next/link";
-import { LeafIcon } from "lucide-react";
 import { GithubIcon } from "@/components/icons/github-icon";
+import { BrandMark } from "@/components/icons/brand-mark";
 
 export function SiteFooter() {
   return (
     <footer className="border-t bg-muted/40">
       <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-4 py-8 sm:flex-row">
         <div className="flex items-center gap-2 text-sm font-medium">
-          <span className="flex size-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
-            <LeafIcon aria-hidden className="size-3.5" />
-          </span>
+          <BrandMark className="size-6" />
           Sustainability Career Pathfinder 2.0
         </div>
         <nav aria-label="Footer navigation">

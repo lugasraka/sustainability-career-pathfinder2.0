@@ -23,6 +23,7 @@ import {
 import { DemandBadge } from "@/components/explorer/demand-badge";
 import { FrameworkChip } from "@/components/explorer/framework-chip";
 import { PillarChip } from "@/components/shared/pillar-chip";
+import { PathIcon } from "@/components/shared/path-icon";
 import { getPath, PATHS } from "@/data/paths";
 import { SKILL_BY_SLUG } from "@/data/skills";
 import { certsForPath } from "@/data/certifications";
@@ -125,9 +126,10 @@ export default async function CareerPathPage({
 
       <header className="mb-12 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div className="flex items-start gap-4">
-          <span className="text-5xl" aria-hidden>
-            {path.emoji}
-          </span>
+          <PathIcon
+            slug={path.slug}
+            className="size-14 [&_svg]:size-7"
+          />
           <div>
             <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
               {path.title}
@@ -341,9 +343,7 @@ export default async function CareerPathPage({
                   href={`/careers/${p.slug}`}
                   className="group flex items-center gap-3 rounded-xl border p-4 transition-colors hover:bg-accent/50"
                 >
-                  <span className="text-2xl" aria-hidden>
-                    {p.emoji}
-                  </span>
+                  <PathIcon slug={p.slug} className="size-9 [&_svg]:size-4" />
                   <span className="text-sm font-medium leading-snug">
                     {p.title}
                   </span>

@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/card";
 import { DemandBadge } from "@/components/explorer/demand-badge";
 import { FrameworkChip } from "@/components/explorer/framework-chip";
+import { PathIcon } from "@/components/shared/path-icon";
 import type { CareerPath } from "@/types/pathfinder";
 
 export function PathCard({ path }: { path: CareerPath }) {
@@ -21,9 +22,7 @@ export function PathCard({ path }: { path: CareerPath }) {
       <Card className="flex h-full flex-col gap-3 py-6 transition-all group-hover:border-primary/40 group-hover:shadow-md">
         <CardHeader>
           <div className="flex items-start justify-between gap-2">
-            <span className="text-3xl" aria-hidden>
-              {path.emoji}
-            </span>
+            <PathIcon slug={path.slug} />
             <DemandBadge demand={path.demand} />
           </div>
           <CardTitle className="text-base leading-snug">
