@@ -2,6 +2,10 @@
 
 A career recommendation engine for sustainability professionals. A four-step diagnostic scores your transferable skills against a five-pillar skill graph, credits the skills your background already proves, and ranks 17 career pathways by weighted fit. Every match comes with a transparent "why this match" breakdown, a skill gap matrix, and a 90-day transition plan. Free, no account required, drafts save on your device.
 
+**Live:** [https://sustainability-career-pathfinder20.vercel.app/](https://sustainability-career-pathfinder20.vercel.app/)
+
+![Sustainability Career Pathfinder 2.0, home page](docs/screenshot-home.png)
+
 ## From 1.0 to 2.0
 
 The original [Sustainability Career Pathfinder](https://sustainabilitypathfinder.lovable.app/) (MVP 1.0) mapped the 17-pathway taxonomy and the roadmap content this project builds on. Version 2.0 is a ground-up rebuild that answers its three biggest gaps: a static quiz, generic results, and no execution path.
@@ -38,24 +42,6 @@ npm install
 npm run dev      # dev server at http://localhost:3000
 npm run build    # production build (runs lint + typecheck)
 npm run start    # serve the production build
-```
-
-## Project structure
-
-```
-src/
-  app/                 routes: home, careers, careers/[slug], assessment, results
-  components/
-    assessment/        4-step wizard and step screens
-    explorer/          path cards, grid, search and filters
-    results/           match cards, radar chart, skill delta matrix, why-this-match, timeline
-    layout/            header, footer, theme toggle
-    ui/                shadcn primitives
-  data/                seed data: paths, skills, requirements matrix, path regions and org fit,
-                       portfolio projects, certifications
-  lib/                 scoring engine, background credits, pillar metadata, hooks
-  store/               Zustand assessment store (persisted)
-  types/               shared types mirroring the database schema
 ```
 
 ## Docs
