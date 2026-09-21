@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { LeafIcon } from "lucide-react";
+import { GithubIcon } from "@/components/icons/github-icon";
 
 export function SiteFooter() {
   return (
@@ -27,6 +28,18 @@ export function SiteFooter() {
               <Link href="/results" className="hover:text-foreground">
                 My Results
               </Link>
+            </li>
+            <li>
+              <a
+                href="https://github.com/lugasraka/sustainability-career-pathfinder2.0"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Source code on GitHub"
+                className="inline-flex items-center gap-1.5 hover:text-foreground"
+              >
+                <GithubIcon aria-hidden className="size-4" />
+                Source
+              </a>
             </li>
           </ul>
         </nav>
