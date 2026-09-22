@@ -18,6 +18,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified,
     },
     {
+      url: `${SITE_URL}/skills`,
+      changeFrequency: "monthly",
+      priority: 0.7,
+      lastModified,
+    },
+    {
       url: `${SITE_URL}/assessment`,
       changeFrequency: "monthly",
       priority: 0.7,

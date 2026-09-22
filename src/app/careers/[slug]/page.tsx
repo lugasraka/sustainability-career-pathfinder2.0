@@ -216,7 +216,12 @@ export default async function CareerPathPage({
                     return (
                       <TableRow key={r.skillSlug}>
                         <TableCell className="font-medium">
-                          {skill.name}
+                          <Link
+                            href={`/skills#${r.skillSlug}`}
+                            className="underline-offset-2 hover:text-primary hover:underline"
+                          >
+                            {skill.name}
+                          </Link>
                         </TableCell>
                         <TableCell>
                           <span

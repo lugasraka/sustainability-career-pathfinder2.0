@@ -12,9 +12,9 @@ import {
 } from "@/components/ui/accordion";
 import { SkillRow } from "@/components/assessment/skill-row";
 import { SKILLS, SKILL_BY_SLUG } from "@/data/skills";
-import { SKILL_ALIASES } from "@/data/skill-aliases";
 import type { SkillSubgroup } from "@/data/skill-subgroups";
 import { BACKGROUND_CREDITS } from "@/lib/scoring/background-credits";
+import { matchesSkillQuery } from "@/lib/skill-search";
 import { useAssessmentStore } from "@/store/assessment-store";
 import type { Pillar, Skill } from "@/types/pathfinder";
 
@@ -23,18 +23,6 @@ for (const skill of SKILLS) {
   const list = PILLAR_SKILLS.get(skill.pillar) ?? [];
   list.push(skill);
   PILLAR_SKILLS.set(skill.pillar, list);
-}
-
-function matchesQuery(skill: Skill, query: string): boolean {
-  if (!query) return true;
-  const aliases = [
-    ...(SKILL_ALIASES[skill.slug] ?? []),
-    ...(skill.aliases ?? []),
-  ];
-  return (
-    skill.name.toLowerCase().includes(query) ||
-    aliases.some((alias) => alias.toLowerCase().includes(query))
-  );
 }
 
 interface ResolvedGroup {
@@ -193,7 +181,7 @@ export function SkillPicker({
       items: definition.slugs
         .map((slug) => SKILL_BY_SLUG.get(slug))
         .filter((skill): skill is Skill => Boolean(skill))
-        .filter((skill) => matchesQuery(skill, q))
+        .filter((skill) => matchesSkillQuery(skill, q))
         .filter((skill) => !selectedOnly || selected.has(skill.slug)),
     }));
   }, [pillar, subgroups, q, selectedOnly, selected]);
@@ -226,7 +214,7 @@ export function SkillPicker({
           .filter((group) =>
             group.slugs.some((slug) => {
               const skill = SKILL_BY_SLUG.get(slug);
-              return skill ? matchesQuery(skill, term) : false;
+              return skill ? matchesSkillQuery(skill, term) : false;
             })
           )
           .map((group) => group.id)

@@ -18,6 +18,11 @@ export function SiteFooter() {
               </Link>
             </li>
             <li>
+              <Link href="/skills" className="hover:text-foreground">
+                Glossary
+              </Link>
+            </li>
+            <li>
               <Link href="/assessment" className="hover:text-foreground">
                 Assessment
               </Link>
