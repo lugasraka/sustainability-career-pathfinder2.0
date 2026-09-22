@@ -5,6 +5,22 @@ import { Badge } from "@/components/ui/badge";
 import { PathGrid } from "@/components/explorer/path-grid";
 import { PATHS } from "@/data/paths";
 import { cn } from "@/lib/utils";
+import type { DemandLevel } from "@/types/pathfinder";
+
+const DEMAND_RANK: Record<DemandLevel, number> = {
+  explosive: 0,
+  strong: 1,
+  emerging: 2,
+};
+
+const FEATURED_PATHS = PATHS.map((path, index) => ({ path, index }))
+  .sort(
+    (a, b) =>
+      DEMAND_RANK[a.path.demand] - DEMAND_RANK[b.path.demand] ||
+      a.index - b.index
+  )
+  .slice(0, 6)
+  .map((entry) => entry.path);
 
 const HOW_IT_WORKS = [
   {
@@ -86,7 +102,7 @@ export default function HomePage() {
             <ArrowRightIcon aria-hidden className="size-4" />
           </Link>
         </div>
-        <PathGrid paths={PATHS.slice(0, 6)} />
+        <PathGrid paths={FEATURED_PATHS} />
         <div className="mt-8 text-center sm:hidden">
           <Link
             href="/careers"

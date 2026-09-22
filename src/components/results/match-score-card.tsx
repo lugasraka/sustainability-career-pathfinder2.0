@@ -1,5 +1,8 @@
+"use client";
+
+import * as React from "react";
 import Link from "next/link";
-import { ArrowRightIcon } from "lucide-react";
+import { ArrowRightIcon, ChevronDownIcon } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -8,6 +11,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { DemandBadge } from "@/components/explorer/demand-badge";
 import { PillarRadar } from "@/components/results/pillar-radar";
 import { PathIcon } from "@/components/shared/path-icon";
@@ -23,6 +27,7 @@ export function MatchScoreCard({
   pillarScores,
   rank,
   expanded,
+  details,
   className,
 }: {
   pathSlug: string;
@@ -30,10 +35,13 @@ export function MatchScoreCard({
   pillarScores: PillarScore[];
   rank: number;
   expanded?: boolean;
+  details?: React.ReactNode;
   className?: string;
 }) {
   const path = PATH_BY_SLUG.get(pathSlug);
   const displayScore = useCountUp(matchScore);
+  const [detailsOpen, setDetailsOpen] = React.useState(false);
+  const detailsId = React.useId();
   if (!path) return null;
 
   const scoreTone =
@@ -101,7 +109,12 @@ export function MatchScoreCard({
           </ul>
         )}
       </CardContent>
-      <CardFooter>
+      {details && detailsOpen && (
+        <CardContent id={detailsId} className="space-y-3">
+          {details}
+        </CardContent>
+      )}
+      <CardFooter className="justify-between gap-2">
         <Link
           href={`/careers/${path.slug}`}
           className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
@@ -109,6 +122,26 @@ export function MatchScoreCard({
           View full roadmap
           <ArrowRightIcon aria-hidden className="size-4" />
         </Link>
+        {details && (
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            className="no-print"
+            aria-expanded={detailsOpen}
+            aria-controls={detailsId}
+            onClick={() => setDetailsOpen((v) => !v)}
+          >
+            Why this match &amp; gaps
+            <ChevronDownIcon
+              aria-hidden
+              className={cn(
+                "size-4 transition-transform",
+                detailsOpen && "rotate-180"
+              )}
+            />
+          </Button>
+        )}
       </CardFooter>
     </Card>
   );

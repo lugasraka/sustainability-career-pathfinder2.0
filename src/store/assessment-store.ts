@@ -8,6 +8,7 @@ interface AssessmentState {
   step: number;
   background: Background | null;
   yearsExperience: number;
+  yearsExperienceConfirmed: boolean;
   selectedSkillSlugs: string[];
   targetGeography: Geography | null;
   workStylePreference: WorkStyle | null;
@@ -34,6 +35,7 @@ const initialState = {
   step: 0,
   background: null as Background | null,
   yearsExperience: 0,
+  yearsExperienceConfirmed: false,
   selectedSkillSlugs: [] as string[],
   targetGeography: null as Geography | null,
   workStylePreference: null as WorkStyle | null,
@@ -47,7 +49,8 @@ export const useAssessmentStore = create<AssessmentState>()(
       ...initialState,
       setStep: (step) => set({ step }),
       setBackground: (background) => set({ background }),
-      setYearsExperience: (yearsExperience) => set({ yearsExperience }),
+      setYearsExperience: (yearsExperience) =>
+        set({ yearsExperience, yearsExperienceConfirmed: true }),
       toggleSkill: (slug) =>
         set((state) => ({
           selectedSkillSlugs: state.selectedSkillSlugs.includes(slug)
@@ -65,7 +68,8 @@ export const useAssessmentStore = create<AssessmentState>()(
             new Set([...state.selectedSkillSlugs, ...skillSlugs])
           ),
         })),
-      hydrateFromShare: (shared) => set({ ...shared, step: 0 }),
+      hydrateFromShare: (shared) =>
+        set({ ...shared, step: 0, yearsExperienceConfirmed: true }),
       reset: () => set({ ...initialState }),
     }),
     { name: "sus-pathfinder-assessment-v1" }

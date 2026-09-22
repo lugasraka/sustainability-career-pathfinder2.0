@@ -38,6 +38,9 @@ export function StepBackground() {
   const background = useAssessmentStore((s) => s.background);
   const setBackground = useAssessmentStore((s) => s.setBackground);
   const yearsExperience = useAssessmentStore((s) => s.yearsExperience);
+  const yearsExperienceConfirmed = useAssessmentStore(
+    (s) => s.yearsExperienceConfirmed
+  );
   const setYearsExperience = useAssessmentStore((s) => s.setYearsExperience);
 
   return (
@@ -79,12 +82,21 @@ export function StepBackground() {
       <div className="space-y-2">
         <label htmlFor="years-exp" className="text-sm font-semibold">
           Years of professional experience
+          <span aria-hidden className="ml-0.5 text-destructive">
+            *
+          </span>
+          <span className="sr-only"> (required)</span>
         </label>
         <Select
           value={yearsExperience}
           onValueChange={(v) => setYearsExperience(v as number)}
         >
-          <SelectTrigger className="w-full sm:w-64" aria-label="Years of experience">
+          <SelectTrigger
+            className="w-full sm:w-64"
+            aria-label="Years of experience"
+            aria-required
+            aria-invalid={!yearsExperienceConfirmed}
+          >
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
@@ -99,6 +111,11 @@ export function StepBackground() {
             ))}
           </SelectContent>
         </Select>
+        {!yearsExperienceConfirmed && (
+          <p className="text-xs text-muted-foreground">
+            Pick a range to calibrate your pivot stage (entry, mid or senior).
+          </p>
+        )}
       </div>
     </div>
   );
