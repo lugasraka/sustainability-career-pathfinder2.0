@@ -107,7 +107,7 @@ export function SkillPickerControls({
         <span className="font-medium text-foreground">
           {selectedCount} skills selected
         </span>
-        {" — "}
+        {". "}
         {hint}
       </p>
     </div>

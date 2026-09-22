@@ -317,7 +317,7 @@ export function ResultsView() {
         <h2 className="text-lg font-semibold">Next steps</h2>
         <p className="mx-auto mt-1 max-w-xl text-sm text-muted-foreground">
           Open the full roadmap for {top.pathTitle} to see certifications,
-          portfolio projects and job titles — or browse every path to compare.
+          portfolio projects and job titles, or browse every path to compare.
         </p>
         <div className="mt-4 flex flex-col justify-center gap-2 sm:flex-row">
           <Link

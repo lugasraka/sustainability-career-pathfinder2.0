@@ -24,7 +24,7 @@ export function StepSkills() {
         onQueryChange={setQuery}
         selectedOnly={selectedOnly}
         onSelectedOnlyChange={setSelectedOnly}
-        hint="pick everything you have genuinely practiced. You can also skip this step."
+        hint="Pick everything you have genuinely practiced. You can also skip this step."
       />
 
       <div className="grid gap-4 lg:grid-cols-3">

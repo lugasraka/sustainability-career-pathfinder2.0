@@ -25,7 +25,7 @@ const FEATURED_PATHS = PATHS.map((path, index) => ({ path, index }))
 const HOW_IT_WORKS = [
   {
     step: "Diagnose",
-    text: "Four quick steps on background, skills, region and work style — or upload your CV to prefill skills.",
+    text: "Four quick steps on background, skills, region and work style, or upload your CV to prefill skills.",
   },
   {
     step: "Match",

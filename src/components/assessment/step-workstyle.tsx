@@ -78,7 +78,7 @@ export function StepWorkstyle() {
         <SkillSection
           pillar="strategy_governance"
           subgroups={PILLAR_SUBGROUPS.strategy_governance}
-          hint="optional: skip anything that doesn't apply yet."
+          hint="Optional: skip anything that doesn't apply yet."
         />
       </fieldset>
     </div>

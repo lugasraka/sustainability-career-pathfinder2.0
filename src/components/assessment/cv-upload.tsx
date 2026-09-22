@@ -362,7 +362,7 @@ export function CvUpload() {
 
           <p className="flex items-start gap-1.5 text-xs text-muted-foreground">
             <ShieldCheckIcon aria-hidden className="mt-0.5 size-3.5 shrink-0" />
-            Parsed entirely in your browser — the file never leaves your device.
+            Parsed entirely in your browser. The file never leaves your device.
           </p>
         </div>
       )}

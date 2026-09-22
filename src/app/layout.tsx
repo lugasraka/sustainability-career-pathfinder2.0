@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     template: "%s · Sustainability Pathfinder",
   },
   description:
-    "Discover the right sustainability career with an adaptive diagnostic, a five-pillar skill graph, and 90-day transition plans across 17 specialized pathways.",
+    "Score your transferable skills against 17 sustainability career pathways. A four-step diagnostic returns weighted matches, skill-gap analysis and a 90-day transition plan.",
 };
 
 export default function RootLayout({

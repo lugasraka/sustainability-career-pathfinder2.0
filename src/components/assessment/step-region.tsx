@@ -57,7 +57,7 @@ export function StepRegion() {
         <SkillSection
           pillar="regulations_disclosure"
           subgroups={PILLAR_SUBGROUPS.regulations_disclosure}
-          hint="optional: tick only the ones you could explain in an interview."
+          hint="Optional: tick only the ones you could explain in an interview."
         />
       </fieldset>
     </div>
