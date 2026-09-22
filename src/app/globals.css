@@ -131,3 +131,64 @@
     @apply font-heading tracking-tight;
   }
 }
+
+@media print {
+  header,
+  footer,
+  .no-print {
+    display: none !important;
+  }
+
+  html,
+  body {
+    background: #fff !important;
+    color: #0a0a0a !important;
+  }
+
+  /* Keep light theme values even when the site is in dark mode */
+  :root {
+    --background: #fff;
+    --foreground: #0a0a0a;
+    --card: #fff;
+    --card-foreground: #0a0a0a;
+    --muted: #f5f5f5;
+    --muted-foreground: #525252;
+    --primary: #15803d;
+    --primary-foreground: #fff;
+    --border: #d4d4d4;
+  }
+
+  main {
+    padding: 0 !important;
+  }
+
+  .print-one-pager {
+    max-width: none !important;
+    font-size: 0.82rem;
+  }
+
+  .print-one-pager h1 {
+    font-size: 1.4rem !important;
+    margin-bottom: 0.25rem;
+  }
+
+  .print-one-pager section {
+    margin-top: 0.75rem !important;
+    space-y: 0.25rem !important;
+    break-inside: avoid;
+  }
+
+  .print-one-pager h2 {
+    font-size: 1rem !important;
+    margin-top: 0.5rem !important;
+  }
+
+  .print-one-pager .print-footer {
+    display: block !important;
+    margin-top: 0.75rem;
+    font-size: 0.7rem;
+    color: #737373;
+    border-top: 1px solid #d4d4d4;
+    padding-top: 0.4rem;
+  }
+}

@@ -20,6 +20,13 @@ interface AssessmentState {
   setTargetGeography: (geo: Geography) => void;
   setWorkStylePreference: (style: WorkStyle) => void;
   applyCvMatches: (skillSlugs: string[], source: CvSource) => void;
+  hydrateFromShare: (state: {
+    background: Background;
+    yearsExperience: number;
+    selectedSkillSlugs: string[];
+    targetGeography: Geography;
+    workStylePreference: WorkStyle;
+  }) => void;
   reset: () => void;
 }
 
@@ -58,6 +65,7 @@ export const useAssessmentStore = create<AssessmentState>()(
             new Set([...state.selectedSkillSlugs, ...skillSlugs])
           ),
         })),
+      hydrateFromShare: (shared) => set({ ...shared, step: 0 }),
       reset: () => set({ ...initialState }),
     }),
     { name: "sus-pathfinder-assessment-v1" }

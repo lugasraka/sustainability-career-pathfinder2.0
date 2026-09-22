@@ -26,6 +26,7 @@ The original [Sustainability Career Pathfinder](https://sustainabilitypathfinder
 - Match engine: weighted skill coverage, mandatory-gap penalty, background skill credits at half weight, region and work-style bonuses, capped at 99
 - Results: top 3 matches, five-pillar radar, skill delta matrix, entry/mid/senior pivot framing, 90-day plan
 - "Why this match" card: coverage %, gap penalties, credits and bonuses itemized
+- Shareable results: copy a link that re-computes your exact matches for anyone who opens it, or save a one-page PDF via the browser print dialog
 - Path explorer with live search, demand and pillar filters, removable filter chips
 - Dark mode (light / dark), Inter + Bricolage Grotesque type system
 - Seed data: 17 paths, 129 skills, 68 portfolio projects, 52 certifications
@@ -54,6 +55,6 @@ npm run start    # serve the production build
 
 Built: diagnostic, match engine with background credits and region/work-style bonuses, explainable results, path pages
 
-Next: dynamic OG share cards, framework index page, certification ROI directory, proof-of-work starter kit downloads, PDF export of transition plans
+Next: dynamic OG share cards, framework index page, certification ROI directory, proof-of-work starter kit downloads
 
 Phase 3: Supabase auth, LLM-assisted resume translation, portfolio gallery

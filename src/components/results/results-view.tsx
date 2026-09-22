@@ -2,13 +2,20 @@
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
-import { ClipboardListIcon, RotateCcwIcon } from "lucide-react";
+import {
+  CheckIcon,
+  ClipboardListIcon,
+  LinkIcon,
+  PrinterIcon,
+  RotateCcwIcon,
+} from "lucide-react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { computePathMatch } from "@/lib/scoring/compute-path-match";
 import { PATHS } from "@/data/paths";
 import { PATH_SKILLS } from "@/data/path-skills";
 import { PATH_ORG_FIT, PATH_REGIONS } from "@/data/path-context";
 import { BACKGROUND_META } from "@/lib/pillars";
+import { buildShareUrl, readShareParam } from "@/lib/share-link";
 import { cn } from "@/lib/utils";
 import { useAssessmentStore } from "@/store/assessment-store";
 import { MatchScoreCard } from "@/components/results/match-score-card";
@@ -36,11 +43,23 @@ export function ResultsView() {
   const selectedSkillSlugs = store.selectedSkillSlugs;
   const targetGeography = store.targetGeography;
   const workStylePreference = store.workStylePreference;
+  const hydrateFromShare = store.hydrateFromShare;
   const reset = store.reset;
   const router = useRouter();
   const [mounted, setMounted] = React.useState(false);
+  const [shareCopied, setShareCopied] = React.useState(false);
 
   React.useEffect(() => setMounted(true), []);
+
+  const isSharedView = React.useRef(false);
+  React.useEffect(() => {
+    if (isSharedView.current) return;
+    const shared = readShareParam();
+    if (shared) {
+      isSharedView.current = true;
+      hydrateFromShare(shared);
+    }
+  }, [hydrateFromShare]);
 
   const results = React.useMemo(() => {
     if (!background || !targetGeography || !workStylePreference) return [];
@@ -90,8 +109,32 @@ export function ResultsView() {
   const bgLabel = background ? BACKGROUND_META[background].label : "";
   const pivot = pivotStage(yearsExperience);
 
+  const handleCopyShareLink = async () => {
+    if (
+      !background ||
+      !targetGeography ||
+      !workStylePreference
+    ) {
+      return;
+    }
+    const url = buildShareUrl({
+      background,
+      yearsExperience,
+      selectedSkillSlugs,
+      targetGeography,
+      workStylePreference,
+    });
+    try {
+      await navigator.clipboard.writeText(url);
+      setShareCopied(true);
+      setTimeout(() => setShareCopied(false), 2000);
+    } catch {
+      // Clipboard unavailable (e.g. insecure context); no-op.
+    }
+  };
+
   return (
-    <div className="mx-auto max-w-5xl space-y-10">
+    <div className="print-one-pager mx-auto max-w-5xl space-y-10">
       <header className="space-y-3">
         <p className="text-sm font-medium text-primary">Career Command Center</p>
         <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
@@ -105,17 +148,39 @@ export function ResultsView() {
           <span>Experience: {yearsExperience}+ yrs</span>
           <span aria-hidden>·</span>
           <span>Skills audited: {selectedSkillSlugs.length}</span>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => {
-              reset();
-              router.push("/assessment");
-            }}
-          >
-            <RotateCcwIcon aria-hidden className="size-4" />
-            Retake
-          </Button>
+          <span className="no-print flex items-center gap-1">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => void handleCopyShareLink()}
+            >
+              {shareCopied ? (
+                <CheckIcon aria-hidden className="size-4" />
+              ) : (
+                <LinkIcon aria-hidden className="size-4" />
+              )}
+              {shareCopied ? "Copied" : "Share link"}
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => window.print()}
+            >
+              <PrinterIcon aria-hidden className="size-4" />
+              Save as PDF
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => {
+                reset();
+                router.push("/assessment");
+              }}
+            >
+              <RotateCcwIcon aria-hidden className="size-4" />
+              Retake
+            </Button>
+          </span>
         </div>
       </header>
 
@@ -157,7 +222,13 @@ export function ResultsView() {
         </section>
       )}
 
-      <section className="rounded-xl border border-dashed p-6 text-center">
+      <p className="print-footer hidden" aria-hidden>
+        Generated {new Date().toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" })} · Sustainability Career Pathfinder 2.0
+      </p>
+
+      <section
+        className="no-print rounded-xl border border-dashed p-6 text-center"
+      >
         <p className="text-sm text-muted-foreground">
           Next up (Phase 2): proof-of-work starter kits and certification ROI
           benchmarks for your top path.
