@@ -4,8 +4,9 @@ const skill = (
   slug: string,
   name: string,
   pillar: Pillar,
-  demandLevel: SkillDemand
-): Skill => ({ slug, name, pillar, demandLevel });
+  demandLevel: SkillDemand,
+  aliases?: string[]
+): Skill => ({ slug, name, pillar, demandLevel, aliases });
 
 export const SKILLS: Skill[] = [
   // Carbon & Climate Accounting

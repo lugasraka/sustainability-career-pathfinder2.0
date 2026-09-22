@@ -11,6 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { CvUpload } from "@/components/assessment/cv-upload";
 import { BACKGROUND_META } from "@/lib/pillars";
 import { cn } from "@/lib/utils";
 import { useAssessmentStore } from "@/store/assessment-store";
@@ -41,6 +42,8 @@ export function StepBackground() {
 
   return (
     <div className="space-y-8">
+      <CvUpload />
+
       <fieldset className="space-y-3">
         <legend className="text-sm font-semibold">
           Which describes your primary background?

@@ -2,6 +2,8 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { Background, Geography, WorkStyle } from "@/types/pathfinder";
 
+export type CvSource = "pdf" | "paste";
+
 interface AssessmentState {
   step: number;
   background: Background | null;
@@ -9,12 +11,15 @@ interface AssessmentState {
   selectedSkillSlugs: string[];
   targetGeography: Geography | null;
   workStylePreference: WorkStyle | null;
+  cvDetectedSkillSlugs: string[];
+  cvSource: CvSource | null;
   setStep: (step: number) => void;
   setBackground: (background: Background) => void;
   setYearsExperience: (years: number) => void;
   toggleSkill: (slug: string) => void;
   setTargetGeography: (geo: Geography) => void;
   setWorkStylePreference: (style: WorkStyle) => void;
+  applyCvMatches: (skillSlugs: string[], source: CvSource) => void;
   reset: () => void;
 }
 
@@ -25,6 +30,8 @@ const initialState = {
   selectedSkillSlugs: [] as string[],
   targetGeography: null as Geography | null,
   workStylePreference: null as WorkStyle | null,
+  cvDetectedSkillSlugs: [] as string[],
+  cvSource: null as CvSource | null,
 };
 
 export const useAssessmentStore = create<AssessmentState>()(
@@ -43,6 +50,14 @@ export const useAssessmentStore = create<AssessmentState>()(
       setTargetGeography: (targetGeography) => set({ targetGeography }),
       setWorkStylePreference: (workStylePreference) =>
         set({ workStylePreference }),
+      applyCvMatches: (skillSlugs, cvSource) =>
+        set((state) => ({
+          cvDetectedSkillSlugs: skillSlugs,
+          cvSource,
+          selectedSkillSlugs: Array.from(
+            new Set([...state.selectedSkillSlugs, ...skillSlugs])
+          ),
+        })),
       reset: () => set({ ...initialState }),
     }),
     { name: "sus-pathfinder-assessment-v1" }

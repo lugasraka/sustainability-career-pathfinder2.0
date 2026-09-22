@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 const HOW_IT_WORKS = [
   {
     step: "Diagnose",
-    text: "Four quick steps on your background, skills, region and work style.",
+    text: "Four quick steps on background, skills, region and work style — or upload your CV to prefill skills.",
   },
   {
     step: "Match",

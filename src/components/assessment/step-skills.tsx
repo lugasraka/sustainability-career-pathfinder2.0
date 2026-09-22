@@ -10,9 +10,11 @@ import { useAssessmentStore } from "@/store/assessment-store";
 export function StepSkills() {
   const selectedSkillSlugs = useAssessmentStore((s) => s.selectedSkillSlugs);
   const toggleSkill = useAssessmentStore((s) => s.toggleSkill);
+  const cvDetectedSkillSlugs = useAssessmentStore((s) => s.cvDetectedSkillSlugs);
   const [query, setQuery] = React.useState("");
 
   const selected = new Set(selectedSkillSlugs);
+  const fromCv = new Set(cvDetectedSkillSlugs);
   const q = query.trim().toLowerCase();
 
   return (
@@ -29,6 +31,11 @@ export function StepSkills() {
           {selectedSkillSlugs.length} skills selected. Pick everything you have
           genuinely practiced. You can also skip this step.
         </p>
+        {fromCv.size > 0 && (
+          <span className="inline-flex w-fit shrink-0 items-center gap-1 rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-1 text-xs font-medium text-emerald-700 dark:border-emerald-900 dark:bg-emerald-950 dark:text-emerald-300">
+            {fromCv.size} from CV
+          </span>
+        )}
       </div>
 
       <div className="grid gap-4 lg:grid-cols-3">
@@ -78,6 +85,14 @@ export function StepSkills() {
                         }}
                       />
                       <span className="leading-snug">{s.name}</span>
+                      {fromCv.has(s.slug) && (
+                        <span
+                          className="ml-auto shrink-0 rounded-full border border-emerald-200 bg-emerald-50 px-1.5 py-0.5 text-[10px] font-medium text-emerald-700 dark:border-emerald-900 dark:bg-emerald-950 dark:text-emerald-300"
+                          aria-label="Detected from your CV"
+                        >
+                          CV
+                        </span>
+                      )}
                     </label>
                   </li>
                 ))}

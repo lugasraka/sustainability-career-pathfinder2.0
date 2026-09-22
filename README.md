@@ -22,6 +22,7 @@ The original [Sustainability Career Pathfinder](https://sustainabilitypathfinder
 
 - 17 career path profiles, statically generated with JSON-LD breadcrumbs
 - 4-step adaptive assessment: background, technical skills, region and frameworks, working style
+- CV prefill: upload a PDF or paste CV text on Step 1 to auto-detect skills (parsed in your browser; the file never leaves your device), review the matches, then continue the wizard
 - Match engine: weighted skill coverage, mandatory-gap penalty, background skill credits at half weight, region and work-style bonuses, capped at 99
 - Results: top 3 matches, five-pillar radar, skill delta matrix, entry/mid/senior pivot framing, 90-day plan
 - "Why this match" card: coverage %, gap penalties, credits and bonuses itemized

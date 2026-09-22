@@ -32,6 +32,7 @@ export interface Skill {
   name: string;
   pillar: Pillar;
   demandLevel: SkillDemand;
+  aliases?: string[];
 }
 
 export interface PathSkillRequirement {
