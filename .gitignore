@@ -24,6 +24,9 @@
 .DS_Store
 *.pem
 
+# generated print exports
+/docs/*.pdf
+
 # debug
 npm-debug.log*
 yarn-debug.log*
