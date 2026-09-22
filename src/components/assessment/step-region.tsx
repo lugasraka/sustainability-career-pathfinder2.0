@@ -1,11 +1,11 @@
 "use client";
 
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   RadioGroup,
   RadioGroupItem,
 } from "@/components/ui/radio-group";
-import { SKILLS } from "@/data/skills";
+import { SkillSection } from "@/components/assessment/skill-picker";
+import { PILLAR_SUBGROUPS } from "@/data/skill-subgroups";
 import { cn } from "@/lib/utils";
 import { useAssessmentStore } from "@/store/assessment-store";
 import type { Geography } from "@/types/pathfinder";
@@ -19,13 +19,6 @@ const GEO_OPTIONS: { value: Geography; label: string; hint: string }[] = [
 export function StepRegion() {
   const targetGeography = useAssessmentStore((s) => s.targetGeography);
   const setTargetGeography = useAssessmentStore((s) => s.setTargetGeography);
-  const selectedSkillSlugs = useAssessmentStore((s) => s.selectedSkillSlugs);
-  const toggleSkill = useAssessmentStore((s) => s.toggleSkill);
-
-  const selected = new Set(selectedSkillSlugs);
-  const frameworkSkills = SKILLS.filter(
-    (s) => s.pillar === "regulations_disclosure"
-  );
 
   return (
     <div className="space-y-8">
@@ -57,32 +50,15 @@ export function StepRegion() {
         </RadioGroup>
       </fieldset>
 
-      <fieldset className="space-y-3">
+      <fieldset className="space-y-4">
         <legend className="text-sm font-semibold">
-          Which regulations & disclosure standards do you already know?
+          Which regulations &amp; disclosure standards do you already know?
         </legend>
-        <p className="text-xs text-muted-foreground">
-          Optional. Tick only the ones you could explain in an interview.
-        </p>
-        <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-          {frameworkSkills.map((s) => (
-            <li key={s.slug}>
-              <label
-                data-slot="field-label"
-                className="flex cursor-pointer items-center gap-2.5 rounded-lg border p-3 text-sm transition-colors hover:bg-accent/50"
-              >
-                <Checkbox
-                  checked={selected.has(s.slug)}
-                  onCheckedChange={(c) => {
-                    const has = selected.has(s.slug);
-                    if ((c && !has) || (!c && has)) toggleSkill(s.slug);
-                  }}
-                />
-                <span className="leading-snug">{s.name}</span>
-              </label>
-            </li>
-          ))}
-        </ul>
+        <SkillSection
+          pillar="regulations_disclosure"
+          subgroups={PILLAR_SUBGROUPS.regulations_disclosure}
+          hint="optional: tick only the ones you could explain in an interview."
+        />
       </fieldset>
     </div>
   );
