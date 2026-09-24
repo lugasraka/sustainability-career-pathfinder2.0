@@ -80,7 +80,7 @@ export function decodeShareState(encoded: string): ShareState | null {
       ? (raw.w as WorkStyle)
       : null;
     const years =
-      typeof raw.y === "number" && raw.y >= 0 && raw.y <= 40
+      typeof raw.y === "number" && raw.y >= 0 && raw.y <= 60
         ? Math.floor(raw.y)
         : null;
     const skills = Array.isArray(raw.k)

@@ -36,7 +36,7 @@ export function SkillRow({
       <span className="ml-auto flex shrink-0 items-center gap-1">
         {credited && !checked && (
           <span
-            className={`${BADGE_BASE} border-violet-200 bg-violet-50 text-violet-700 dark:border-violet-900 dark:bg-violet-950 dark:text-violet-300`}
+            className={`${BADGE_BASE} border-violet-200 bg-violet-50 text-violet-700 dark:border-violet-900 dark:bg-violet-950 dark:text-violet-300 motion-safe:animate-in motion-safe:fade-in-0 motion-safe:zoom-in-95 motion-safe:duration-200`}
             title={creditHint}
           >
             50% credit
@@ -52,7 +52,7 @@ export function SkillRow({
         )}
         {fromCv && (
           <span
-            className={`${BADGE_BASE} border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-900 dark:bg-emerald-950 dark:text-emerald-300`}
+            className={`${BADGE_BASE} border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-900 dark:bg-emerald-950 dark:text-emerald-300 motion-safe:animate-in motion-safe:fade-in-0 motion-safe:zoom-in-95 motion-safe:duration-200`}
             aria-label="Detected from your CV"
           >
             CV

@@ -24,6 +24,7 @@ import { DemandBadge } from "@/components/explorer/demand-badge";
 import { FrameworkChip } from "@/components/explorer/framework-chip";
 import { PillarChip } from "@/components/shared/pillar-chip";
 import { PathIcon } from "@/components/shared/path-icon";
+import { Reveal } from "@/components/motion/reveal";
 import { getPath, PATHS } from "@/data/paths";
 import { SKILL_BY_SLUG } from "@/data/skills";
 import { certsForPath } from "@/data/certifications";
@@ -60,6 +61,9 @@ const JOB_LEVELS = [
   { key: "mid" as const, label: "Mid-level" },
   { key: "senior" as const, label: "Senior" },
 ];
+
+const ENTER =
+  "motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-3 motion-safe:duration-300 motion-safe:fill-mode-both motion-safe:ease-out-quart";
 
 export default async function CareerPathPage({
   params,
@@ -110,10 +114,16 @@ export default async function CareerPathPage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <nav aria-label="Breadcrumb" className="mb-6 text-sm text-muted-foreground">
+      <nav
+        aria-label="Breadcrumb"
+        className={cn("mb-6 text-sm text-muted-foreground", ENTER)}
+      >
         <ol className="flex items-center gap-2">
           <li>
-            <Link href="/careers" className="hover:text-foreground hover:underline">
+            <Link
+              href="/careers"
+              className="rounded transition-colors hover:text-foreground hover:underline focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
+            >
               Career Paths
             </Link>
           </li>
@@ -124,7 +134,13 @@ export default async function CareerPathPage({
         </ol>
       </nav>
 
-      <header className="mb-12 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+      <header
+        className={cn(
+          "mb-12 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between",
+          ENTER,
+          "delay-75"
+        )}
+      >
         <div className="flex items-start gap-4">
           <PathIcon
             slug={path.slug}
@@ -145,46 +161,53 @@ export default async function CareerPathPage({
         </div>
       </header>
 
-      <section className="mb-12 space-y-4" aria-label="Career overview">
-        {path.overview.map((paragraph, i) => (
-          <p key={i} className="max-w-3xl text-muted-foreground">
-            {paragraph}
-          </p>
-        ))}
-      </section>
-
-      <section className="mb-12 space-y-4" aria-label="Typical job titles">
-        <h2 className="flex items-center gap-2 text-xl font-semibold">
-          <UsersIcon aria-hidden className="size-5 text-primary" />
-          Typical job titles
-        </h2>
-        <div className="grid gap-3 md:grid-cols-3">
-          {JOB_LEVELS.map((level) => (
-            <Card key={level.key} className="gap-3 py-6">
-              <CardHeader>
-                <CardTitle className="text-sm text-muted-foreground">
-                  {level.label}
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-1.5 text-sm">
-                  {path.commonJobTitles[level.key].map((title) => (
-                    <li key={title} className="font-medium">
-                      {title}
-                    </li>
-                  ))}
-                </ul>
-              </CardContent>
-            </Card>
+      <Reveal>
+        <section className="mb-12 space-y-4" aria-label="Career overview">
+          {path.overview.map((paragraph, i) => (
+            <p key={i} className="max-w-3xl text-muted-foreground">
+              {paragraph}
+            </p>
           ))}
-        </div>
-      </section>
+        </section>
+      </Reveal>
 
-      <section className="mb-12 space-y-4" aria-label="Skills needed">
-        <h2 className="flex items-center gap-2 text-xl font-semibold">
-          <LayersIcon aria-hidden className="size-5 text-primary" />
-          Skills needed
-        </h2>
+      <Reveal>
+        <section className="mb-12 space-y-4" aria-label="Typical job titles">
+          <h2 className="flex items-center gap-2 text-xl font-semibold">
+            <UsersIcon aria-hidden className="size-5 text-primary" />
+            Typical job titles
+          </h2>
+          <div className="grid gap-3 md:grid-cols-3">
+            {JOB_LEVELS.map((level, i) => (
+              <Reveal key={level.key} delay={i * 45}>
+                <Card className="gap-3 py-6">
+                  <CardHeader>
+                    <CardTitle className="text-sm text-muted-foreground">
+                      {level.label}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <ul className="space-y-1.5 text-sm">
+                      {path.commonJobTitles[level.key].map((title) => (
+                        <li key={title} className="font-medium">
+                          {title}
+                        </li>
+                      ))}
+                    </ul>
+                  </CardContent>
+                </Card>
+              </Reveal>
+            ))}
+          </div>
+        </section>
+      </Reveal>
+
+      <Reveal>
+        <section className="mb-12 space-y-4" aria-label="Skills needed">
+          <h2 className="flex items-center gap-2 text-xl font-semibold">
+            <LayersIcon aria-hidden className="size-5 text-primary" />
+            Skills needed
+          </h2>
         <p className="max-w-3xl text-sm text-muted-foreground">
           Requirement levels feed the matching engine: mandatory gaps block the
           score, recommended gaps shape upskilling, differentiators set seniors
@@ -218,7 +241,7 @@ export default async function CareerPathPage({
                         <TableCell className="font-medium">
                           <Link
                             href={`/skills#${r.skillSlug}`}
-                            className="underline-offset-2 hover:text-primary hover:underline"
+                            className="rounded transition-colors underline-offset-2 hover:text-primary hover:underline focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
                           >
                             {skill.name}
                           </Link>
@@ -243,9 +266,11 @@ export default async function CareerPathPage({
             </Table>
           </div>
         ))}
-      </section>
+        </section>
+      </Reveal>
 
-      <section className="mb-12 grid gap-8 lg:grid-cols-2" aria-label="Frameworks and entry backgrounds">
+      <Reveal>
+        <section className="mb-12 grid gap-8 lg:grid-cols-2" aria-label="Frameworks and entry backgrounds">
         <div className="space-y-3">
           <h2 className="flex items-center gap-2 text-xl font-semibold">
             <GraduationCapIcon aria-hidden className="size-5 text-primary" />
@@ -269,41 +294,47 @@ export default async function CareerPathPage({
             ))}
           </ul>
         </div>
-      </section>
+        </section>
+      </Reveal>
 
-      <section className="mb-12 space-y-4" aria-label="Portfolio projects">
-        <h2 className="flex items-center gap-2 text-xl font-semibold">
-          <HammerIcon aria-hidden className="size-5 text-primary" />
-          Proof-of-work portfolio projects
-        </h2>
-        <div className="grid gap-3 md:grid-cols-2">
-          {projectsForPath(path.slug).map((project) => (
-            <Card key={project.title} className="gap-3 py-6">
-              <CardHeader>
-                <div className="flex items-start justify-between gap-2">
-                  <CardTitle className="text-base leading-snug">
-                    {project.title}
-                  </CardTitle>
-                  <span
-                    className={cn(
-                      "inline-flex shrink-0 rounded-full border px-2 py-0.5 text-xs font-medium",
-                      DIFFICULTY_META[project.difficulty].className
-                    )}
-                  >
-                    {DIFFICULTY_META[project.difficulty].label}
-                  </span>
-                </div>
-                <CardDescription>{project.summary}</CardDescription>
-              </CardHeader>
-              <CardFooter className="text-xs text-muted-foreground">
-                ~{project.estimatedHours} hours of effort
-              </CardFooter>
-            </Card>
-          ))}
-        </div>
-      </section>
+      <Reveal>
+        <section className="mb-12 space-y-4" aria-label="Portfolio projects">
+          <h2 className="flex items-center gap-2 text-xl font-semibold">
+            <HammerIcon aria-hidden className="size-5 text-primary" />
+            Proof-of-work portfolio projects
+          </h2>
+          <div className="grid gap-3 md:grid-cols-2">
+            {projectsForPath(path.slug).map((project, i) => (
+              <Reveal key={project.title} delay={i * 45}>
+                <Card className="gap-3 py-6">
+                  <CardHeader>
+                    <div className="flex items-start justify-between gap-2">
+                      <CardTitle className="text-base leading-snug">
+                        {project.title}
+                      </CardTitle>
+                      <span
+                        className={cn(
+                          "inline-flex shrink-0 rounded-full border px-2 py-0.5 text-xs font-medium",
+                          DIFFICULTY_META[project.difficulty].className
+                        )}
+                      >
+                        {DIFFICULTY_META[project.difficulty].label}
+                      </span>
+                    </div>
+                    <CardDescription>{project.summary}</CardDescription>
+                  </CardHeader>
+                  <CardFooter className="text-xs text-muted-foreground">
+                    ~{project.estimatedHours} hours of effort
+                  </CardFooter>
+                </Card>
+              </Reveal>
+            ))}
+          </div>
+        </section>
+      </Reveal>
 
-      <section className="mb-12 space-y-4" aria-label="Certifications">
+      <Reveal>
+        <section className="mb-12 space-y-4" aria-label="Certifications">
         <h2 className="text-xl font-semibold">Recommended certifications</h2>
         <div className="rounded-xl border">
           <Table>
@@ -336,31 +367,39 @@ export default async function CareerPathPage({
             </TableBody>
           </Table>
         </div>
-      </section>
+        </section>
+      </Reveal>
 
       {related.length > 0 && (
-        <section className="space-y-4" aria-label="Related career paths">
-          <h2 className="text-xl font-semibold">Related paths</h2>
-          <ul className="grid gap-3 sm:grid-cols-3">
-            {related.map((p) => (
-              <li key={p.slug}>
-                <Link
-                  href={`/careers/${p.slug}`}
-                  className="group flex items-center gap-3 rounded-xl border p-4 transition-colors hover:bg-accent/50"
-                >
-                  <PathIcon slug={p.slug} className="size-9 [&_svg]:size-4" />
-                  <span className="text-sm font-medium leading-snug">
-                    {p.title}
-                  </span>
-                  <ArrowRightIcon
-                    aria-hidden
-                    className="ml-auto size-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-1"
-                  />
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </section>
+        <Reveal>
+          <section className="space-y-4" aria-label="Related career paths">
+            <h2 className="text-xl font-semibold">Related paths</h2>
+            <ul className="grid gap-3 sm:grid-cols-3">
+              {related.map((p, i) => (
+                <li key={p.slug}>
+                  <Reveal delay={i * 45}>
+                    <Link
+                      href={`/careers/${p.slug}`}
+                      className="group flex items-center gap-3 rounded-xl border p-4 transition-[transform,box-shadow,border-color,background-color] duration-200 ease-out-quart hover:-translate-y-1 hover:border-primary/40 hover:bg-accent/50 hover:shadow-md focus-visible:-translate-y-1 focus-visible:border-primary/40 focus-visible:bg-accent/50 focus-visible:shadow-md focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
+                    >
+                      <PathIcon
+                        slug={p.slug}
+                        className="size-9 transition-[transform,background-color] duration-200 ease-out-quart group-hover:scale-110 group-hover:bg-primary/15 group-focus-visible:scale-110 group-focus-visible:bg-primary/15 [&_svg]:size-4"
+                      />
+                      <span className="text-sm font-medium leading-snug">
+                        {p.title}
+                      </span>
+                      <ArrowRightIcon
+                        aria-hidden
+                        className="ml-auto size-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-1"
+                      />
+                    </Link>
+                  </Reveal>
+                </li>
+              ))}
+            </ul>
+          </section>
+        </Reveal>
       )}
     </div>
   );

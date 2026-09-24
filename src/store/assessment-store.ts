@@ -17,7 +17,9 @@ interface AssessmentState {
   setStep: (step: number) => void;
   setBackground: (background: Background) => void;
   setYearsExperience: (years: number) => void;
+  clearYearsExperience: () => void;
   toggleSkill: (slug: string) => void;
+  setSkillsSelected: (slugs: string[], selected: boolean) => void;
   setTargetGeography: (geo: Geography) => void;
   setWorkStylePreference: (style: WorkStyle) => void;
   applyCvMatches: (skillSlugs: string[], source: CvSource) => void;
@@ -51,12 +53,23 @@ export const useAssessmentStore = create<AssessmentState>()(
       setBackground: (background) => set({ background }),
       setYearsExperience: (yearsExperience) =>
         set({ yearsExperience, yearsExperienceConfirmed: true }),
+      clearYearsExperience: () =>
+        set({ yearsExperience: 0, yearsExperienceConfirmed: false }),
       toggleSkill: (slug) =>
         set((state) => ({
           selectedSkillSlugs: state.selectedSkillSlugs.includes(slug)
             ? state.selectedSkillSlugs.filter((s) => s !== slug)
             : [...state.selectedSkillSlugs, slug],
         })),
+      setSkillsSelected: (slugs, selected) =>
+        set((state) => {
+          const next = new Set(state.selectedSkillSlugs);
+          for (const slug of slugs) {
+            if (selected) next.add(slug);
+            else next.delete(slug);
+          }
+          return { selectedSkillSlugs: Array.from(next) };
+        }),
       setTargetGeography: (targetGeography) => set({ targetGeography }),
       setWorkStylePreference: (workStylePreference) =>
         set({ workStylePreference }),

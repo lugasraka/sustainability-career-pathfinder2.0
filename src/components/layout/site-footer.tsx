@@ -13,22 +13,34 @@ export function SiteFooter() {
         <nav aria-label="Footer navigation">
           <ul className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
             <li>
-              <Link href="/careers" className="hover:text-foreground">
+              <Link
+                href="/careers"
+                className="rounded hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
+              >
                 Career Paths
               </Link>
             </li>
             <li>
-              <Link href="/skills" className="hover:text-foreground">
+              <Link
+                href="/skills"
+                className="rounded hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
+              >
                 Glossary
               </Link>
             </li>
             <li>
-              <Link href="/assessment" className="hover:text-foreground">
+              <Link
+                href="/assessment"
+                className="rounded hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
+              >
                 Assessment
               </Link>
             </li>
             <li>
-              <Link href="/results" className="hover:text-foreground">
+              <Link
+                href="/results"
+                className="rounded hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
+              >
                 My Results
               </Link>
             </li>
@@ -38,7 +50,7 @@ export function SiteFooter() {
                 target="_blank"
                 rel="noreferrer"
                 aria-label="Source code on GitHub"
-                className="inline-flex items-center gap-1.5 hover:text-foreground"
+                className="inline-flex items-center gap-1.5 rounded hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
               >
                 <GithubIcon aria-hidden className="size-4" />
                 Source

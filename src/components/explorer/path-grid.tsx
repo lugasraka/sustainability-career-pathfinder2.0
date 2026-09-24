@@ -1,13 +1,15 @@
-import { PathCard } from "@/components/explorer/path-card";
+import { PathCard, type PathCardAnimation } from "@/components/explorer/path-card";
 import { cn } from "@/lib/utils";
 import type { CareerPath } from "@/types/pathfinder";
 
 export function PathGrid({
   paths,
   className,
+  animate = "entrance",
 }: {
   paths: CareerPath[];
   className?: string;
+  animate?: PathCardAnimation;
 }) {
   if (paths.length === 0) {
     return (
@@ -23,8 +25,13 @@ export function PathGrid({
         className
       )}
     >
-      {paths.map((path) => (
-        <PathCard key={path.slug} path={path} />
+      {paths.map((path, index) => (
+        <PathCard
+          key={path.slug}
+          path={path}
+          index={index}
+          animate={animate}
+        />
       ))}
     </div>
   );

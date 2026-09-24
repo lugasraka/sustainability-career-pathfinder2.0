@@ -1,5 +1,9 @@
+"use client";
+
+import * as m from "motion/react-m";
 import { certsForPath } from "@/data/certifications";
 import { projectsForPath } from "@/data/portfolio-projects";
+import { EASE_OUT, listContainer, listItem } from "@/lib/motion/presets";
 
 const PHASES = [
   {
@@ -29,9 +33,19 @@ export function TransitionTimeline({ pathSlug }: { pathSlug: string }) {
   const advancedCert = certsForPath(pathSlug, "advanced")[0];
 
   return (
-    <ol className="grid gap-3 md:grid-cols-3">
+    <m.ol
+      className="grid gap-3 md:grid-cols-3"
+      variants={listContainer}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "0px 0px -10% 0px" }}
+    >
       {PHASES.map((phase, i) => (
-        <li key={phase.range} className="rounded-xl border p-4">
+        <m.li
+          key={phase.range}
+          variants={listItem}
+          className="rounded-xl border p-4"
+        >
           <p className="text-xs font-semibold uppercase tracking-wide text-primary">
             {phase.range}
           </p>
@@ -78,8 +92,19 @@ export function TransitionTimeline({ pathSlug }: { pathSlug: string }) {
               </>
             )}
           </ul>
-        </li>
+          <m.span
+            aria-hidden
+            variants={{
+              hidden: { scaleX: 0 },
+              visible: {
+                scaleX: 1,
+                transition: { duration: 0.5, ease: EASE_OUT },
+              },
+            }}
+            className="mt-3 block h-1 origin-left rounded-full bg-primary/60"
+          />
+        </m.li>
       ))}
-    </ol>
+    </m.ol>
   );
 }

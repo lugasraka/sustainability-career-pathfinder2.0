@@ -128,6 +128,13 @@ export function CvUpload() {
     setPhase("applied");
   };
 
+  const handleTabKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
+      e.preventDefault();
+      setMode((m) => (m === "pdf" ? "paste" : "pdf"));
+    }
+  };
+
   const reset = () => {
     setPhase("idle");
     setMatches([]);
@@ -155,8 +162,13 @@ export function CvUpload() {
         )}
       </div>
 
-      {/* APPLIED */}
-      {phase === "applied" && (
+      <div
+        key={phase}
+        aria-busy={phase === "parsing"}
+        className="motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-1 motion-safe:duration-200"
+      >
+        {/* APPLIED */}
+        {phase === "applied" && (
         <div className="space-y-3">
           <p className="text-sm text-muted-foreground">
             {cvDetectedSkillSlugs.length} skills were detected and selected on
@@ -209,14 +221,14 @@ export function CvUpload() {
               <button
                 type="button"
                 onClick={selectAll}
-                className="text-xs font-medium text-muted-foreground underline-offset-2 hover:underline"
+                className="rounded text-xs font-medium text-muted-foreground underline-offset-2 hover:underline focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
               >
                 Select all
               </button>
               <button
                 type="button"
                 onClick={selectNone}
-                className="text-xs font-medium text-muted-foreground underline-offset-2 hover:underline"
+                className="rounded text-xs font-medium text-muted-foreground underline-offset-2 hover:underline focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
               >
                 Clear
               </button>
@@ -274,31 +286,45 @@ export function CvUpload() {
           <div
             role="tablist"
             aria-label="CV input method"
-            className="inline-flex rounded-lg bg-muted p-[3px]"
+            onKeyDown={handleTabKeyDown}
+            className="relative grid w-fit grid-cols-2 rounded-lg bg-muted p-[3px] text-center"
           >
+            <span
+              aria-hidden
+              className={cn(
+                "pointer-events-none absolute inset-y-[3px] left-[3px] w-[calc(50%-3px)] rounded-md bg-background shadow-sm transition-transform duration-200 ease-out",
+                mode === "paste" && "translate-x-full"
+              )}
+            />
             <button
+              id="cv-tab-pdf"
               type="button"
               role="tab"
               aria-selected={mode === "pdf"}
+              aria-controls="cv-panel-pdf"
+              tabIndex={mode === "pdf" ? 0 : -1}
               onClick={() => setMode("pdf")}
               className={cn(
-                "rounded-md px-3 py-1 text-sm font-medium transition-colors",
+                "relative rounded-md px-3 py-1 text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none",
                 mode === "pdf"
-                  ? "bg-background text-foreground shadow-sm"
+                  ? "text-foreground"
                   : "text-muted-foreground hover:text-foreground"
               )}
             >
               Upload PDF
             </button>
             <button
+              id="cv-tab-paste"
               type="button"
               role="tab"
               aria-selected={mode === "paste"}
+              aria-controls="cv-panel-paste"
+              tabIndex={mode === "paste" ? 0 : -1}
               onClick={() => setMode("paste")}
               className={cn(
-                "rounded-md px-3 py-1 text-sm font-medium transition-colors",
+                "relative rounded-md px-3 py-1 text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none",
                 mode === "paste"
-                  ? "bg-background text-foreground shadow-sm"
+                  ? "text-foreground"
                   : "text-muted-foreground hover:text-foreground"
               )}
             >
@@ -307,7 +333,12 @@ export function CvUpload() {
           </div>
 
           {mode === "pdf" ? (
-            <div className="space-y-2">
+            <div
+              id="cv-panel-pdf"
+              role="tabpanel"
+              aria-labelledby="cv-tab-pdf"
+              className="space-y-2 motion-safe:animate-in motion-safe:fade-in-0 motion-safe:duration-200"
+            >
               <label
                 htmlFor="cv-pdf"
                 onDragOver={(e) => {
@@ -317,7 +348,7 @@ export function CvUpload() {
                 onDragLeave={() => setDragging(false)}
                 onDrop={handleDrop}
                 className={cn(
-                  "flex cursor-pointer items-center gap-2 rounded-lg border border-dashed p-4 text-sm transition-colors hover:bg-accent/50",
+                  "flex cursor-pointer items-center gap-2 rounded-lg border border-dashed p-4 text-sm transition-colors hover:bg-accent/50 has-[:focus-visible]:border-ring has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-ring/50",
                   dragging && "border-primary bg-accent/50"
                 )}
               >
@@ -342,7 +373,12 @@ export function CvUpload() {
               </label>
             </div>
           ) : (
-            <div className="space-y-2">
+            <div
+              id="cv-panel-paste"
+              role="tabpanel"
+              aria-labelledby="cv-tab-paste"
+              className="space-y-2 motion-safe:animate-in motion-safe:fade-in-0 motion-safe:duration-200"
+            >
               <label htmlFor="cv-paste" className="text-sm font-semibold">
                 Paste your CV text
               </label>
@@ -366,6 +402,7 @@ export function CvUpload() {
           </p>
         </div>
       )}
+      </div>
     </section>
   );
 }

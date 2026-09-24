@@ -2,7 +2,12 @@
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
-import { ArrowLeftIcon, CheckIcon, SparklesIcon } from "lucide-react";
+import {
+  ArrowLeftIcon,
+  CheckIcon,
+  Loader2Icon,
+  SparklesIcon,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -17,6 +22,7 @@ import { StepSkills } from "@/components/assessment/step-skills";
 import { StepRegion } from "@/components/assessment/step-region";
 import { StepWorkstyle } from "@/components/assessment/step-workstyle";
 import { useAssessmentStore } from "@/store/assessment-store";
+import { cn } from "@/lib/utils";
 
 const TOTAL_STEPS = 4;
 
@@ -28,33 +34,41 @@ export function AssessmentWizard() {
     (s) => s.yearsExperienceConfirmed
   );
   const selectedSkillSlugs = useAssessmentStore((s) => s.selectedSkillSlugs);
+  const targetGeography = useAssessmentStore((s) => s.targetGeography);
   const workStylePreference = useAssessmentStore((s) => s.workStylePreference);
   const router = useRouter();
 
   const stepRef = React.useRef<HTMLDivElement>(null);
   const isFirstRender = React.useRef(true);
+  const [direction, setDirection] = React.useState<1 | -1>(1);
+  const [isPending, startTransition] = React.useTransition();
 
   const hasDraft =
     background !== null ||
     yearsExperienceConfirmed ||
     selectedSkillSlugs.length > 0 ||
+    targetGeography !== null ||
     workStylePreference !== null;
 
   const canContinue =
     step === 0
       ? background !== null && yearsExperienceConfirmed
-      : step === TOTAL_STEPS - 1
-        ? workStylePreference !== null
-        : true;
+      : step === 2
+        ? targetGeography !== null
+        : step === TOTAL_STEPS - 1
+          ? workStylePreference !== null
+          : true;
 
   const continueHint =
     step === 0
       ? background === null
         ? "Pick your background to continue"
         : "Pick your years of experience to continue"
-      : step === TOTAL_STEPS - 1 && workStylePreference === null
-        ? "Choose a work style to continue"
-        : null;
+      : step === 2 && targetGeography === null
+        ? "Choose a job market to continue"
+        : step === TOTAL_STEPS - 1 && workStylePreference === null
+          ? "Choose a work style to continue"
+          : null;
 
   React.useEffect(() => {
     if (isFirstRender.current) {
@@ -62,15 +76,28 @@ export function AssessmentWizard() {
       return;
     }
     stepRef.current?.focus({ preventScroll: true });
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({
+      top: 0,
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+        ? "auto"
+        : "smooth",
+    });
   }, [step]);
 
   const handleContinue = () => {
     if (step < TOTAL_STEPS - 1) {
+      setDirection(1);
       setStep(step + 1);
       return;
     }
-    router.push("/results");
+    startTransition(() => {
+      router.push("/results");
+    });
+  };
+
+  const handleBack = () => {
+    setDirection(-1);
+    setStep(step - 1);
   };
 
   return (
@@ -90,8 +117,8 @@ export function AssessmentWizard() {
             )}
           </div>
           <CardDescription>
-            Four quick steps. Your answers stay saved on this device, even if you
-            leave mid-way.
+            Four quick steps. Your answers stay saved on this device, even if
+            you leave mid-way.
           </CardDescription>
           <AssessmentStepper current={step} />
         </CardHeader>
@@ -100,46 +127,68 @@ export function AssessmentWizard() {
             Step {step + 1} of {TOTAL_STEPS}: {STEP_LABELS[step]}
           </p>
           <div
-            key={step}
             ref={stepRef}
             tabIndex={-1}
-            className="outline-none motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-2 motion-safe:duration-300"
+            className="rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
           >
-            {step === 0 && <StepBackground />}
-            {step === 1 && <StepSkills />}
-            {step === 2 && <StepRegion />}
-            {step === TOTAL_STEPS - 1 && <StepWorkstyle />}
+            <div
+              key={step}
+              className={cn(
+                "motion-safe:animate-in motion-safe:fade-in motion-safe:duration-200 motion-safe:ease-out",
+                direction === 1
+                  ? "motion-safe:slide-in-from-right-4"
+                  : "motion-safe:slide-in-from-left-4"
+              )}
+            >
+              {step === 0 && <StepBackground />}
+              {step === 1 && <StepSkills />}
+              {step === 2 && <StepRegion />}
+              {step === TOTAL_STEPS - 1 && <StepWorkstyle />}
+            </div>
           </div>
         </CardContent>
       </Card>
 
-      <div className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-xl border bg-card p-3 max-sm:sticky max-sm:bottom-0 max-sm:z-20 max-sm:bg-card/95 max-sm:pb-[max(0.75rem,env(safe-area-inset-bottom))] max-sm:shadow-lg max-sm:backdrop-blur">
-        <Button
-          variant="outline"
-          disabled={step === 0}
-          onClick={() => setStep(step - 1)}
-        >
-          <ArrowLeftIcon aria-hidden className="size-4" />
-          Back
-        </Button>
-        <div className="flex flex-1 items-center justify-end gap-3">
-          {continueHint && (
-            <p className="text-right text-xs text-muted-foreground">
-              {continueHint}
-            </p>
-          )}
-          <Button disabled={!canContinue} onClick={handleContinue}>
-            {step === TOTAL_STEPS - 1 ? (
-              <>
-                See my matches
-                <SparklesIcon aria-hidden className="size-4" />
-              </>
-            ) : (
-              "Continue"
-            )}
+        <div className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-xl border bg-card p-3 max-sm:sticky max-sm:bottom-0 max-sm:z-20 max-sm:bg-card/95 max-sm:pb-[max(0.75rem,env(safe-area-inset-bottom))] max-sm:shadow-lg max-sm:backdrop-blur">
+          <Button
+            variant="outline"
+            disabled={step === 0 || isPending}
+            onClick={handleBack}
+          >
+            <ArrowLeftIcon aria-hidden className="size-4" />
+            Back
           </Button>
+          <div className="flex flex-1 items-center justify-end gap-3">
+            {continueHint && (
+              <p
+                id="continue-hint"
+                className="text-right text-xs text-muted-foreground"
+              >
+                {continueHint}
+              </p>
+            )}
+            <Button
+              disabled={!canContinue || isPending}
+              aria-busy={isPending}
+              aria-describedby={continueHint ? "continue-hint" : undefined}
+              onClick={handleContinue}
+            >
+              {isPending ? (
+                <>
+                  <Loader2Icon aria-hidden className="size-4 animate-spin" />
+                  Loading matches…
+                </>
+              ) : step === TOTAL_STEPS - 1 ? (
+                <>
+                  See my matches
+                  <SparklesIcon aria-hidden className="size-4" />
+                </>
+              ) : (
+                "Continue"
+              )}
+            </Button>
+          </div>
         </div>
       </div>
-    </div>
   );
 }

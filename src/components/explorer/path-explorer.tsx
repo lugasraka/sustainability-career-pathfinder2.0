@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { SearchIcon, XIcon } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -32,13 +33,13 @@ function FilterChip({
   onRemove: () => void;
 }) {
   return (
-    <span className="inline-flex items-center gap-1 rounded-full border bg-muted px-2.5 py-1 text-xs font-medium">
+    <span className="inline-flex items-center gap-1 rounded-full border bg-muted px-2.5 py-1 text-xs font-medium motion-safe:animate-in motion-safe:fade-in motion-safe:zoom-in-95 motion-safe:duration-150 motion-safe:fill-mode-both motion-safe:ease-out-quart">
       {label}
       <button
         type="button"
         onClick={onRemove}
         aria-label={`Remove filter ${label}`}
-        className="rounded-full p-0.5 transition-colors hover:bg-background"
+        className="rounded-full p-0.5 transition-colors hover:bg-background focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
       >
         <XIcon aria-hidden className="size-3" />
       </button>
@@ -163,7 +164,7 @@ export function PathExplorer() {
               setDemand("all");
               setPillar("all");
             }}
-            className="text-xs font-medium text-muted-foreground underline-offset-2 hover:text-foreground hover:underline"
+            className="rounded text-xs font-medium text-muted-foreground underline-offset-2 hover:text-foreground hover:underline focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
           >
             Clear all
           </button>
@@ -174,7 +175,27 @@ export function PathExplorer() {
         Showing {filtered.length} of {PATHS.length} paths
       </p>
 
-      <PathGrid paths={filtered} />
+      {filtered.length === 0 ? (
+        <div className="rounded-xl border border-dashed py-16 text-center">
+          <p className="text-muted-foreground">
+            No paths match your filters.
+          </p>
+          <Button
+            variant="outline"
+            size="sm"
+            className="mt-4"
+            onClick={() => {
+              setQuery("");
+              setDemand("all");
+              setPillar("all");
+            }}
+          >
+            Clear filters
+          </Button>
+        </div>
+      ) : (
+        <PathGrid paths={filtered} animate="filter" />
+      )}
     </div>
   );
 }

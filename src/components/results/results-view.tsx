@@ -10,8 +10,11 @@ import {
   PrinterIcon,
   RotateCcwIcon,
 } from "lucide-react";
+import * as m from "motion/react-m";
 import { Button, buttonVariants } from "@/components/ui/button";
+import { MotionProvider } from "@/components/motion/motion-provider";
 import { computePathMatch } from "@/lib/scoring/compute-path-match";
+import { listContainer, SPRING_SNAPPY } from "@/lib/motion/presets";
 import { PATHS } from "@/data/paths";
 import { PATH_SKILLS } from "@/data/path-skills";
 import { PATH_ORG_FIT, PATH_REGIONS } from "@/data/path-context";
@@ -23,6 +26,8 @@ import {
 } from "@/lib/share-link";
 import { useAssessmentStore } from "@/store/assessment-store";
 import { MatchScoreCard } from "@/components/results/match-score-card";
+import { ResultsSkeleton } from "@/components/results/results-skeleton";
+import { ScoreValue } from "@/components/results/score-value";
 import { SkillDeltaMatrix } from "@/components/results/skill-delta-matrix";
 import { TransitionTimeline } from "@/components/results/transition-timeline";
 import { WhyThisMatch } from "@/components/results/why-this-match";
@@ -151,8 +156,8 @@ export function ResultsView() {
 
   if (!mounted || !complete || results.length === 0) {
     return (
-      <div className="py-24 text-center text-muted-foreground">
-        Loading your matches…
+      <div className="py-16">
+        <ResultsSkeleton />
       </div>
     );
   }
@@ -187,7 +192,8 @@ export function ResultsView() {
   };
 
   return (
-    <div className="print-one-pager mx-auto max-w-5xl space-y-10">
+    <MotionProvider>
+      <div className="print-one-pager mx-auto max-w-5xl space-y-10">
       {viewingShared && (
         <div className="no-print flex flex-wrap items-center justify-between gap-3 rounded-xl border border-primary/30 bg-primary/5 p-4">
           <p className="text-sm">
@@ -208,14 +214,17 @@ export function ResultsView() {
           {viewingShared ? "Shared result" : "Career Command Center"}
         </p>
         <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
-          {top.matchScore}% match · {top.pathTitle}
+          <ScoreValue value={top.matchScore} />% match · {top.pathTitle}
         </h1>
         <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted-foreground">
           <span>{PIVOT_LABEL[pivot]} profile</span>
           <span aria-hidden>·</span>
           <span>Background: {bgLabel}</span>
           <span aria-hidden>·</span>
-          <span>Experience: {yearsExperience}+ yrs</span>
+          <span>
+            Experience: {yearsExperience}{" "}
+            {yearsExperience === 1 ? "yr" : "yrs"}
+          </span>
           <span aria-hidden>·</span>
           <span>Skills audited: {selectedSkillSlugs.length}</span>
         </div>
@@ -225,11 +234,19 @@ export function ResultsView() {
             className="w-full sm:w-auto"
             onClick={() => void handleCopyShareLink()}
           >
-            {shareCopied ? (
-              <CheckIcon aria-hidden className="size-4" />
-            ) : (
-              <LinkIcon aria-hidden className="size-4" />
-            )}
+            <m.span
+              key={shareCopied ? "copied" : "idle"}
+              initial={{ scale: 0.7, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={SPRING_SNAPPY}
+              className="inline-flex"
+            >
+              {shareCopied ? (
+                <CheckIcon aria-hidden className="size-4" />
+              ) : (
+                <LinkIcon aria-hidden className="size-4" />
+              )}
+            </m.span>
             {shareCopied ? "Link copied" : "Share your result"}
           </Button>
           <Button
@@ -259,10 +276,7 @@ export function ResultsView() {
         </div>
       </header>
 
-      <section
-        className="space-y-4 motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-2 motion-safe:duration-300"
-        aria-label="Top match breakdown"
-      >
+      <section className="space-y-4" aria-label="Top match breakdown">
         <h2 className="text-xl font-semibold">
           {viewingShared ? "Top match" : "Your top match"}
         </h2>
@@ -285,7 +299,13 @@ export function ResultsView() {
       {runnersUp.length > 0 && (
         <section className="space-y-4" aria-label="Runner-up matches">
           <h2 className="text-xl font-semibold">Also strong for you</h2>
-          <div className="grid gap-4 md:grid-cols-2">
+          <m.div
+            className="grid gap-4 md:grid-cols-2"
+            variants={listContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "0px 0px -10% 0px" }}
+          >
             {runnersUp.map((r, i) => (
               <MatchScoreCard
                 key={r.pathSlug}
@@ -305,7 +325,7 @@ export function ResultsView() {
                 }
               />
             ))}
-          </div>
+          </m.div>
         </section>
       )}
 
@@ -335,6 +355,7 @@ export function ResultsView() {
           </Link>
         </div>
       </section>
-    </div>
+      </div>
+    </MotionProvider>
   );
 }

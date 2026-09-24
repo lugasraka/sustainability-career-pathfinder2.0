@@ -3,9 +3,13 @@ import { ArrowRightIcon } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { PathGrid } from "@/components/explorer/path-grid";
+import { Reveal } from "@/components/motion/reveal";
 import { PATHS } from "@/data/paths";
 import { cn } from "@/lib/utils";
 import type { DemandLevel } from "@/types/pathfinder";
+
+const ENTER =
+  "motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-3 motion-safe:duration-300 motion-safe:fill-mode-both motion-safe:ease-out-quart";
 
 const DEMAND_RANK: Record<DemandLevel, number> = {
   explosive: 0,
@@ -45,22 +49,43 @@ export default function HomePage() {
   return (
     <div>
       <section className="border-b bg-gradient-to-b from-primary/5 to-background">
-        <div className="mx-auto max-w-6xl px-4 py-20 text-center sm:py-28 motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-4 motion-safe:duration-500">
+        <div className="mx-auto max-w-6xl px-4 py-20 text-center sm:py-28">
           <Badge
             variant="outline"
-            className="mb-5 border-primary/30 bg-primary/10 text-primary"
+            className={cn(
+              "mb-5 border-primary/30 bg-primary/10 text-primary",
+              ENTER
+            )}
           >
             Pathfinder 2.0 · skill-graph driven
           </Badge>
-          <h1 className="mx-auto max-w-3xl text-4xl font-bold tracking-tight text-balance sm:text-6xl">
+          <h1
+            className={cn(
+              "mx-auto max-w-3xl text-4xl font-bold tracking-tight text-balance sm:text-6xl",
+              ENTER,
+              "delay-75"
+            )}
+          >
             Map your move into sustainability work.
           </h1>
-          <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground text-pretty">
+          <p
+            className={cn(
+              "mx-auto mt-4 max-w-2xl text-lg text-muted-foreground text-pretty",
+              ENTER,
+              "delay-150"
+            )}
+          >
             An adaptive diagnostic scores your transferable skills across five
             pillars. You get a weighted match, a skill gap matrix, and a 90-day
             transition plan.
           </p>
-          <div className="mt-8 flex flex-col items-center gap-3">
+          <div
+            className={cn(
+              "mt-8 flex flex-col items-center gap-3",
+              ENTER,
+              "delay-200"
+            )}
+          >
             <Link
               href="/assessment"
               className={buttonVariants({ size: "lg" })}
@@ -75,14 +100,20 @@ export default function HomePage() {
               <ArrowRightIcon aria-hidden className="size-4" />
             </Link>
           </div>
-          <p className="mt-6 text-sm text-muted-foreground">
+          <p
+            className={cn(
+              "mt-6 text-sm text-muted-foreground",
+              ENTER,
+              "delay-300"
+            )}
+          >
             3–5 minutes · 17 specialized paths · 100% free
           </p>
         </div>
       </section>
 
       <section className="mx-auto max-w-6xl px-4 py-16">
-        <div className="mb-8 flex items-end justify-between gap-4">
+        <Reveal className="mb-8 flex items-end justify-between gap-4">
           <div>
             <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
               Featured career paths
@@ -101,7 +132,7 @@ export default function HomePage() {
             View all 17
             <ArrowRightIcon aria-hidden className="size-4" />
           </Link>
-        </div>
+        </Reveal>
         <PathGrid paths={FEATURED_PATHS} />
         <div className="mt-8 text-center sm:hidden">
           <Link
@@ -121,12 +152,14 @@ export default function HomePage() {
           <ol className="grid gap-x-8 gap-y-4 sm:grid-cols-2 lg:grid-cols-4">
             {HOW_IT_WORKS.map((item, i) => (
               <li key={item.step}>
-                <p className="text-sm font-semibold text-primary">
-                  {i + 1}. {item.step}
-                </p>
-                <p className="mt-1 text-sm text-muted-foreground">
-                  {item.text}
-                </p>
+                <Reveal delay={i * 45}>
+                  <p className="text-sm font-semibold text-primary">
+                    {i + 1}. {item.step}
+                  </p>
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    {item.text}
+                  </p>
+                </Reveal>
               </li>
             ))}
           </ol>

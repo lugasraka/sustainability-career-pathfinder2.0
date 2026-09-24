@@ -1,16 +1,11 @@
 "use client";
 
+import * as React from "react";
 import {
   RadioGroup,
   RadioGroupItem,
 } from "@/components/ui/radio-group";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
 import { CvUpload } from "@/components/assessment/cv-upload";
 import { BACKGROUND_META } from "@/lib/pillars";
 import { cn } from "@/lib/utils";
@@ -26,13 +21,7 @@ const ORDERED_BACKGROUNDS: Background[] = [
   "other",
 ];
 
-const YEAR_OPTIONS = [
-  { value: 0, label: "0 (starting fresh)" },
-  { value: 1, label: "1–2 years" },
-  { value: 3, label: "3–5 years" },
-  { value: 6, label: "6–10 years" },
-  { value: 11, label: "11+ years" },
-];
+const MAX_YEARS = 60;
 
 export function StepBackground() {
   const background = useAssessmentStore((s) => s.background);
@@ -42,6 +31,28 @@ export function StepBackground() {
     (s) => s.yearsExperienceConfirmed
   );
   const setYearsExperience = useAssessmentStore((s) => s.setYearsExperience);
+  const clearYearsExperience = useAssessmentStore(
+    (s) => s.clearYearsExperience
+  );
+
+  const [yearsInput, setYearsInput] = React.useState(
+    yearsExperienceConfirmed ? String(yearsExperience) : ""
+  );
+
+  const trimmedYears = yearsInput.trim();
+  const yearsValid =
+    /^\d+$/.test(trimmedYears) && Number(trimmedYears) <= MAX_YEARS;
+  const yearsInvalid = trimmedYears !== "" && !yearsValid;
+
+  const handleYearsChange = (raw: string) => {
+    setYearsInput(raw);
+    const trimmed = raw.trim();
+    if (/^\d+$/.test(trimmed) && Number(trimmed) <= MAX_YEARS) {
+      setYearsExperience(Number(trimmed));
+    } else {
+      clearYearsExperience();
+    }
+  };
 
   return (
     <div className="space-y-8">
@@ -87,33 +98,42 @@ export function StepBackground() {
           </span>
           <span className="sr-only"> (required)</span>
         </label>
-        <Select
-          value={yearsExperience}
-          onValueChange={(v) => setYearsExperience(v as number)}
-        >
-          <SelectTrigger
-            className="w-full sm:w-64"
-            aria-label="Years of experience"
+        <div className="relative w-full sm:w-64">
+          <Input
+            id="years-exp"
+            type="number"
+            inputMode="numeric"
+            min={0}
+            max={MAX_YEARS}
+            step={1}
+            autoComplete="off"
+            placeholder="e.g. 4"
+            value={yearsInput}
+            onChange={(e) => handleYearsChange(e.target.value)}
+            onBlur={() => {
+              if (yearsValid) {
+                setYearsInput(String(Number(trimmedYears)));
+              }
+            }}
             aria-required
             aria-invalid={!yearsExperienceConfirmed}
+            aria-describedby="years-help years-error"
+            className="pr-14"
+          />
+          <span
+            aria-hidden
+            className="pointer-events-none absolute top-1/2 right-3 -translate-y-1/2 text-xs text-muted-foreground"
           >
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            {YEAR_OPTIONS.map((o) => (
-              <SelectItem
-                key={o.value}
-                value={o.value}
-                label={o.label}
-              >
-                {o.label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-        {!yearsExperienceConfirmed && (
-          <p className="text-xs text-muted-foreground">
-            Pick a range to calibrate your pivot stage (entry, mid or senior).
+            years
+          </span>
+        </div>
+        <p id="years-help" className="text-xs text-muted-foreground">
+          Frames your pivot stage — entry (under 3 yrs), mid (3–5), senior (6+).
+          It doesn&apos;t change your match score.
+        </p>
+        {yearsInvalid && (
+          <p id="years-error" role="alert" className="text-xs text-destructive">
+            Enter a whole number from 0 to {MAX_YEARS}.
           </p>
         )}
       </div>

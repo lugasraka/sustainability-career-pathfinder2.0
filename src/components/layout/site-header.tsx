@@ -19,10 +19,23 @@ const NAV_LINKS = [
 export function SiteHeader() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = React.useState(false);
+  const menuButtonRef = React.useRef<HTMLButtonElement>(null);
 
   React.useEffect(() => {
     setMenuOpen(false);
   }, [pathname]);
+
+  React.useEffect(() => {
+    if (!menuOpen) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setMenuOpen(false);
+        menuButtonRef.current?.focus();
+      }
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [menuOpen]);
 
   const isActive = (href: string) =>
     href === "/" ? pathname === "/" : pathname.startsWith(href);
@@ -63,6 +76,7 @@ export function SiteHeader() {
             Find my match
           </Link>
           <Button
+            ref={menuButtonRef}
             variant="ghost"
             size="icon-sm"
             className="sm:hidden"
@@ -77,7 +91,10 @@ export function SiteHeader() {
       </div>
 
       {menuOpen && (
-        <div id="mobile-nav" className="border-t bg-background sm:hidden">
+        <div
+          id="mobile-nav"
+          className="border-t bg-background sm:hidden motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-top-2 motion-safe:duration-200"
+        >
           <nav
             aria-label="Mobile navigation"
             className="mx-auto max-w-6xl px-4 py-3"

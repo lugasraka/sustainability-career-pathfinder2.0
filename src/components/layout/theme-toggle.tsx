@@ -25,11 +25,16 @@ export function ThemeToggle() {
       aria-label={isDark ? "Switch to light theme" : "Switch to dark theme"}
       title={isDark ? "Switch to light theme" : "Switch to dark theme"}
     >
-      {isDark ? (
-        <MoonIcon aria-hidden className="size-4" />
-      ) : (
-        <SunIcon aria-hidden className="size-4" />
-      )}
+      <span
+        key={isDark ? "dark" : "light"}
+        className="inline-flex motion-safe:animate-in motion-safe:fade-in motion-safe:zoom-in-75 motion-safe:duration-200 motion-safe:fill-mode-both motion-safe:ease-out-quart"
+      >
+        {isDark ? (
+          <MoonIcon aria-hidden className="size-4" />
+        ) : (
+          <SunIcon aria-hidden className="size-4" />
+        )}
+      </span>
     </Button>
   );
 }

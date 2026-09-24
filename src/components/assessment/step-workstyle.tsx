@@ -46,10 +46,15 @@ export function StepWorkstyle() {
       <fieldset className="space-y-3">
         <legend className="text-sm font-semibold">
           Which work environment fits you best?
+          <span aria-hidden className="ml-0.5 text-destructive">
+            *
+          </span>
+          <span className="sr-only"> (required)</span>
         </legend>
         <RadioGroup
           value={workStylePreference}
           onValueChange={(v) => setWorkStylePreference(v as WorkStyle)}
+          aria-required
           className="grid grid-cols-1 gap-2 sm:grid-cols-2"
         >
           {STYLE_OPTIONS.map((o) => (
@@ -69,6 +74,10 @@ export function StepWorkstyle() {
             </label>
           ))}
         </RadioGroup>
+        <p className="text-xs text-muted-foreground">
+          Required. Also awards a +3 work-style fit bonus when a path matches
+          your environment.
+        </p>
       </fieldset>
 
       <fieldset className="space-y-4">

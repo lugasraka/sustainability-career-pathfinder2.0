@@ -1,31 +1,42 @@
 "use client";
 
 import * as React from "react";
+import {
+  animate,
+  useMotionValue,
+  useReducedMotion,
+  useTransform,
+  type MotionValue,
+} from "motion/react";
+import { EASE_OUT } from "@/lib/motion/presets";
 
-export function useCountUp(target: number, duration = 600): number {
-  const [value, setValue] = React.useState(0);
+const round = (latest: number) => Math.round(latest);
+
+export function useCountUp(
+  target: number,
+  {
+    duration = 0.6,
+    delay = 0,
+    start = true,
+  }: { duration?: number; delay?: number; start?: boolean } = {}
+): MotionValue<number> {
+  const raw = useMotionValue(0);
+  const display = useTransform(raw, round);
+  const reduceMotion = useReducedMotion();
 
   React.useEffect(() => {
-    if (
-      typeof window !== "undefined" &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    ) {
-      setValue(target);
+    if (!start) return;
+    if (reduceMotion) {
+      raw.set(target);
       return;
     }
-    let frame: number;
-    const start = performance.now();
-    const tick = (now: number) => {
-      const progress = Math.min((now - start) / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      setValue(Math.round(eased * target));
-      if (progress < 1) {
-        frame = requestAnimationFrame(tick);
-      }
-    };
-    frame = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(frame);
-  }, [target, duration]);
+    const controls = animate(raw, target, {
+      duration,
+      delay,
+      ease: EASE_OUT,
+    });
+    return () => controls.stop();
+  }, [target, duration, delay, start, reduceMotion, raw]);
 
-  return value;
+  return display;
 }

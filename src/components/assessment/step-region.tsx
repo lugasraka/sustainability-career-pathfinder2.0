@@ -25,10 +25,15 @@ export function StepRegion() {
       <fieldset className="space-y-3">
         <legend className="text-sm font-semibold">
           Which job market are you targeting?
+          <span aria-hidden className="ml-0.5 text-destructive">
+            *
+          </span>
+          <span className="sr-only"> (required)</span>
         </legend>
         <RadioGroup
           value={targetGeography}
           onValueChange={(v) => setTargetGeography(v as Geography)}
+          aria-required
           className="grid grid-cols-1 gap-2 sm:grid-cols-3"
         >
           {GEO_OPTIONS.map((g) => (
@@ -48,6 +53,10 @@ export function StepRegion() {
             </label>
           ))}
         </RadioGroup>
+        <p className="text-xs text-muted-foreground">
+          Required. Also awards a +3 region-fit bonus when a path&apos;s market
+          matches yours.
+        </p>
       </fieldset>
 
       <fieldset className="space-y-4">

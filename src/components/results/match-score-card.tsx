@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
+import * as m from "motion/react-m";
 import { ArrowRightIcon, ChevronDownIcon } from "lucide-react";
 import {
   Card,
@@ -14,10 +15,12 @@ import {
 import { Button } from "@/components/ui/button";
 import { DemandBadge } from "@/components/explorer/demand-badge";
 import { PillarRadar } from "@/components/results/pillar-radar";
+import { ScoreValue } from "@/components/results/score-value";
 import { PathIcon } from "@/components/shared/path-icon";
 import { PATH_BY_SLUG } from "@/data/paths";
 import { PILLAR_META } from "@/lib/pillars";
-import { useCountUp } from "@/lib/hooks/use-count-up";
+import { fadeUp, SPRING_SNAPPY } from "@/lib/motion/presets";
+import { useInViewOnce } from "@/lib/hooks/use-in-view-once";
 import { cn } from "@/lib/utils";
 import type { PillarScore } from "@/types/pathfinder";
 
@@ -39,9 +42,10 @@ export function MatchScoreCard({
   className?: string;
 }) {
   const path = PATH_BY_SLUG.get(pathSlug);
-  const displayScore = useCountUp(matchScore);
   const [detailsOpen, setDetailsOpen] = React.useState(false);
   const detailsId = React.useId();
+  const cardRef = React.useRef<HTMLDivElement>(null);
+  const inView = useInViewOnce(cardRef);
   if (!path) return null;
 
   const scoreTone =
@@ -52,97 +56,109 @@ export function MatchScoreCard({
         : "text-rose-600 dark:text-rose-400";
 
   return (
-    <Card
-      className={cn(
-        "py-6 motion-safe:animate-in motion-safe:fade-in motion-safe:duration-300",
-        className
-      )}
-    >
-      <CardHeader>
-        <div className="flex items-start justify-between gap-3">
-          <div className="flex items-center gap-3">
-            <PathIcon slug={path.slug} />
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                Match #{rank}
+    <m.div ref={cardRef} variants={fadeUp} className={cn(className)}>
+      <Card className="py-6">
+        <CardHeader>
+          <div className="flex items-start justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <PathIcon slug={path.slug} />
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                  Match #{rank}
+                </p>
+                <CardTitle className="text-lg">{path.title}</CardTitle>
+              </div>
+            </div>
+            <div className="text-right">
+              <p className={cn("text-4xl font-bold tabular-nums", scoreTone)}>
+                <ScoreValue value={matchScore} start={inView} delay={0.1} />
+                %
               </p>
-              <CardTitle className="text-lg">{path.title}</CardTitle>
+              <DemandBadge demand={path.demand} className="mt-1" />
             </div>
           </div>
-          <div className="text-right">
-            <p
-              className={cn(
-                "text-4xl font-bold tabular-nums",
-                scoreTone
-              )}
+          <CardDescription>{path.tagline}</CardDescription>
+        </CardHeader>
+        <CardContent>
+          {expanded ? (
+            <PillarRadar scores={pillarScores} />
+          ) : (
+            <ul
+              className="grid grid-cols-5 gap-1.5"
+              aria-label="Pillar coverage summary"
             >
-              {displayScore}%
-            </p>
-            <DemandBadge demand={path.demand} className="mt-1" />
-          </div>
-        </div>
-        <CardDescription>{path.tagline}</CardDescription>
-      </CardHeader>
-      <CardContent>
-        {expanded ? (
-          <PillarRadar scores={pillarScores} />
-        ) : (
-          <ul className="grid grid-cols-5 gap-1.5" aria-label="Pillar coverage summary">
-            {pillarScores.map((s) => {
-              const meta = PILLAR_META[s.pillar];
-              return (
-                <li
-                  key={s.pillar}
-                  className="rounded-md border px-1 py-1.5 text-center"
-                  title={`${meta.label}: ${s.pct}%`}
-                >
-                  <span
-                    aria-hidden
-                    className={cn("mx-auto mb-1 block h-1 w-6 rounded-full", meta.dot)}
-                  />
-                  <span className="text-[11px] font-semibold tabular-nums">
-                    {s.pct}%
-                  </span>
-                </li>
-              );
-            })}
-          </ul>
-        )}
-      </CardContent>
-      {details && detailsOpen && (
-        <CardContent id={detailsId} className="space-y-3">
-          {details}
+              {pillarScores.map((s) => {
+                const meta = PILLAR_META[s.pillar];
+                return (
+                  <li
+                    key={s.pillar}
+                    className="rounded-md border px-1 py-1.5 text-center"
+                  >
+                    <span
+                      aria-hidden
+                      className={cn(
+                        "mx-auto mb-1 block h-1 w-6 rounded-full",
+                        meta.dot
+                      )}
+                    />
+                    <span className="text-[11px] font-semibold tabular-nums">
+                      {s.pct}%
+                    </span>
+                    <span className="sr-only"> {meta.label}</span>
+                  </li>
+                );
+              })}
+            </ul>
+          )}
         </CardContent>
-      )}
-      <CardFooter className="justify-between gap-2">
-        <Link
-          href={`/careers/${path.slug}`}
-          className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
-        >
-          View full roadmap
-          <ArrowRightIcon aria-hidden className="size-4" />
-        </Link>
         {details && (
-          <Button
-            type="button"
-            variant="ghost"
-            size="sm"
-            className="no-print"
-            aria-expanded={detailsOpen}
-            aria-controls={detailsId}
-            onClick={() => setDetailsOpen((v) => !v)}
+          <div
+            id={detailsId}
+            aria-hidden={!detailsOpen}
+            inert={!detailsOpen}
+            className={cn(
+              "grid transition-[grid-template-rows,opacity] duration-200 ease-out",
+              detailsOpen
+                ? "grid-rows-[1fr] opacity-100"
+                : "grid-rows-[0fr] opacity-0"
+            )}
           >
-            Why this match &amp; gaps
-            <ChevronDownIcon
-              aria-hidden
-              className={cn(
-                "size-4 transition-transform",
-                detailsOpen && "rotate-180"
-              )}
-            />
-          </Button>
+            <div className="overflow-hidden">
+              <CardContent className="space-y-3">{details}</CardContent>
+            </div>
+          </div>
         )}
-      </CardFooter>
-    </Card>
+        <CardFooter className="justify-between gap-2">
+          <Link
+            href={`/careers/${path.slug}`}
+            className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
+          >
+            View full roadmap
+            <ArrowRightIcon aria-hidden className="size-4" />
+          </Link>
+          {details && (
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              className="no-print"
+              aria-expanded={detailsOpen}
+              aria-controls={detailsId}
+              onClick={() => setDetailsOpen((v) => !v)}
+            >
+              Why this match &amp; gaps
+              <m.span
+                aria-hidden
+                className="inline-flex"
+                animate={{ rotate: detailsOpen ? 180 : 0 }}
+                transition={SPRING_SNAPPY}
+              >
+                <ChevronDownIcon className="size-4" />
+              </m.span>
+            </Button>
+          )}
+        </CardFooter>
+      </Card>
+    </m.div>
   );
 }

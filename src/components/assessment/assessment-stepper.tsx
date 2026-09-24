@@ -1,3 +1,4 @@
+import { CheckIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export const STEP_LABELS = [
@@ -38,7 +39,11 @@ export function AssessmentStepper({
                   state === "upcoming" && "border-border bg-muted text-muted-foreground"
                 )}
               >
-                {i + 1}
+                {state === "done" ? (
+                  <CheckIcon className="size-3.5 motion-safe:animate-in motion-safe:zoom-in-50 motion-safe:fade-in-0 motion-safe:duration-200" />
+                ) : (
+                  i + 1
+                )}
               </span>
               <span
                 className={cn(
@@ -51,11 +56,15 @@ export function AssessmentStepper({
             </div>
             <span
               aria-hidden
-              className={cn(
-                "h-1 rounded-full transition-colors",
-                state === "upcoming" ? "bg-border" : "bg-primary"
-              )}
-            />
+              className="relative h-1 overflow-hidden rounded-full bg-border"
+            >
+              <span
+                className={cn(
+                  "absolute inset-0 origin-left rounded-full bg-primary transition-transform duration-300 ease-out",
+                  state === "upcoming" ? "scale-x-0" : "scale-x-100"
+                )}
+              />
+            </span>
           </li>
         );
       })}

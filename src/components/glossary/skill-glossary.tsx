@@ -10,6 +10,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
@@ -24,6 +25,7 @@ import { PILLAR_SUBGROUPS } from "@/data/skill-subgroups";
 import { SKILLS, SKILL_BY_SLUG } from "@/data/skills";
 import { PILLAR_META, PILLAR_ORDER, SKILL_DEMAND_META } from "@/lib/pillars";
 import { matchesSkillQuery } from "@/lib/skill-search";
+import { Reveal } from "@/components/motion/reveal";
 import { cn } from "@/lib/utils";
 import type { Pillar, Skill, SkillDemand } from "@/types/pathfinder";
 
@@ -70,7 +72,7 @@ function GlossaryEntry({ skill }: { skill: Skill }) {
   return (
     <article
       id={skill.slug}
-      className="scroll-mt-24 rounded-lg border border-border/60 p-4"
+      className="glossary-entry scroll-mt-24 rounded-lg border border-border/60 p-4"
     >
       <div className="flex flex-wrap items-center gap-2">
         <h3 className="text-sm font-semibold">{skill.name}</h3>
@@ -241,7 +243,7 @@ export function SkillGlossary() {
               type="button"
               onClick={() => setQuery("")}
               aria-label="Clear search"
-              className="absolute top-1/2 right-2 -translate-y-1/2 rounded-full p-1 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+              className="absolute top-1/2 right-2 -translate-y-1/2 rounded-full p-1 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
             >
               <XIcon aria-hidden className="size-3.5" />
             </button>
@@ -318,7 +320,7 @@ export function SkillGlossary() {
             <button
               type="button"
               onClick={clearFilters}
-              className="font-medium text-muted-foreground underline-offset-2 hover:underline"
+              className="rounded font-medium text-muted-foreground underline-offset-2 hover:underline focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
             >
               Clear filters
             </button>
@@ -327,14 +329,24 @@ export function SkillGlossary() {
       </div>
 
       {sections.length === 0 ? (
-        <div className="rounded-xl border border-dashed py-16 text-center text-muted-foreground">
-          No skills match your filters. Try clearing them.
+        <div className="rounded-xl border border-dashed py-16 text-center">
+          <p className="text-muted-foreground">
+            No skills match your filters.
+          </p>
+          <Button
+            variant="outline"
+            size="sm"
+            className="mt-4"
+            onClick={clearFilters}
+          >
+            Clear filters
+          </Button>
         </div>
       ) : (
         <div className="space-y-8">
           {sections.map((section) => (
+            <Reveal key={section.pillar}>
             <section
-              key={section.pillar}
               aria-label={PILLAR_META[section.pillar].label}
             >
               <div className="mb-3 flex items-center justify-between gap-2">
@@ -360,11 +372,16 @@ export function SkillGlossary() {
                   }
                   className="gap-1"
                 >
-                  {section.subgroups.map((group) => (
+                  {section.subgroups.map((group, groupIndex) => (
                     <AccordionItem
                       key={group.id}
                       value={group.id}
-                      className="rounded-lg border px-3"
+                      className="rounded-lg border px-3 motion-safe:animate-in motion-safe:fade-in motion-safe:duration-150 motion-safe:fill-mode-both motion-safe:ease-out-quart"
+                      style={
+                        groupIndex
+                          ? { animationDelay: `${Math.min(groupIndex, 7) * 30}ms` }
+                          : undefined
+                      }
                     >
                       <AccordionTrigger>
                         <span className="flex flex-1 items-center justify-between gap-2">
@@ -385,13 +402,16 @@ export function SkillGlossary() {
                   ))}
                 </Accordion>
               ) : (
-                <div className="space-y-3">
-                  {section.skills.map((skill) => (
-                    <GlossaryEntry key={skill.slug} skill={skill} />
-                  ))}
-                </div>
+                <Reveal>
+                  <div className="space-y-3">
+                    {section.skills.map((skill) => (
+                      <GlossaryEntry key={skill.slug} skill={skill} />
+                    ))}
+                  </div>
+                </Reveal>
               )}
             </section>
+            </Reveal>
           ))}
         </div>
       )}

@@ -1,4 +1,8 @@
+"use client";
+
+import * as m from "motion/react-m";
 import { skillName } from "@/data/skills";
+import { listContainer, listItem } from "@/lib/motion/presets";
 import { cn } from "@/lib/utils";
 
 function DeltaColumn({
@@ -13,11 +17,9 @@ function DeltaColumn({
   emptyHint: string;
 }) {
   return (
-    <section
-      className={cn(
-        "flex flex-col gap-3 rounded-xl border p-4",
-        tone
-      )}
+    <m.section
+      variants={listItem}
+      className={cn("flex flex-col gap-3 rounded-xl border p-4", tone)}
       aria-label={title}
     >
       <h4 className="text-sm font-semibold">{title}</h4>
@@ -32,7 +34,7 @@ function DeltaColumn({
           ))}
         </ul>
       )}
-    </section>
+    </m.section>
   );
 }
 
@@ -46,7 +48,13 @@ export function SkillDeltaMatrix({
   recommended: string[];
 }) {
   return (
-    <div className="grid gap-3 md:grid-cols-3">
+    <m.div
+      className="grid gap-3 md:grid-cols-3"
+      variants={listContainer}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "0px 0px -10% 0px" }}
+    >
       <DeltaColumn
         title="Transferable strengths"
         tone="border-emerald-200 bg-emerald-50/60 dark:border-emerald-900 dark:bg-emerald-950/40"
@@ -65,6 +73,6 @@ export function SkillDeltaMatrix({
         items={recommended}
         emptyHint="No recommended gaps."
       />
-    </div>
+    </m.div>
   );
 }

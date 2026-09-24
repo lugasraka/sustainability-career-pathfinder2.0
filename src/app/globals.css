@@ -5,6 +5,7 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  --ease-out-quart: cubic-bezier(0.22, 1, 0.36, 1);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-sans);
@@ -132,11 +133,51 @@
   }
 }
 
+@media (prefers-reduced-motion: reduce) {
+  *:not(.animate-spin),
+  *:not(.animate-spin)::before,
+  *:not(.animate-spin)::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  html {
+    scroll-behavior: auto !important;
+  }
+}
+
+@keyframes target-pulse {
+  0% {
+    background-color: color-mix(in oklch, var(--primary) 10%, transparent);
+    box-shadow: 0 0 0 2px color-mix(in oklch, var(--primary) 55%, transparent);
+  }
+  100% {
+    background-color: transparent;
+    box-shadow: 0 0 0 2px transparent;
+  }
+}
+
+.glossary-entry:target {
+  animation: target-pulse 1.2s ease-out both;
+}
+
 @media print {
   header,
   footer,
   .no-print {
     display: none !important;
+  }
+
+  /* Force animation final states so print/PDF never captures hidden content */
+  .print-one-pager *,
+  .print-one-pager *::before,
+  .print-one-pager *::after {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+    transition: none !important;
   }
 
   html,

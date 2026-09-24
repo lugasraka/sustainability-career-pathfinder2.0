@@ -9,10 +9,12 @@ import {
   ResponsiveContainer,
   Tooltip,
 } from "recharts";
+import { useReducedMotion } from "motion/react";
 import { PILLAR_META, PILLAR_ORDER } from "@/lib/pillars";
 import type { PillarScore } from "@/types/pathfinder";
 
 export function PillarRadar({ scores }: { scores: PillarScore[] }) {
+  const reduceMotion = useReducedMotion();
   const data = PILLAR_ORDER.map((pillar) => {
     const found = scores.find((s) => s.pillar === pillar);
     return {
@@ -39,6 +41,10 @@ export function PillarRadar({ scores }: { scores: PillarScore[] }) {
             fill="var(--primary)"
             fillOpacity={0.18}
             strokeWidth={2}
+            isAnimationActive={!reduceMotion}
+            animationDuration={700}
+            animationBegin={120}
+            animationEasing="ease-out"
           />
           <Tooltip
             formatter={(value) => [`${value}%`, "Coverage"]}

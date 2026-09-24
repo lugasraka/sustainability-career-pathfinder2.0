@@ -66,7 +66,7 @@ export function SkillPickerControls({
             type="button"
             onClick={() => onQueryChange("")}
             aria-label="Clear search"
-            className="absolute top-1/2 right-2 -translate-y-1/2 rounded-full p-1 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+            className="absolute top-1/2 right-2 -translate-y-1/2 rounded-full p-1 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
           >
             <XIcon aria-hidden className="size-3.5" />
           </button>
@@ -109,7 +109,7 @@ function SelectAllRow({
   items: Skill[];
   selected: Set<string>;
 }) {
-  const toggleSkill = useAssessmentStore((s) => s.toggleSkill);
+  const setSkillsSelected = useAssessmentStore((s) => s.setSkillsSelected);
   if (items.length === 0) return null;
   const allChecked = items.every((skill) => selected.has(skill.slug));
 
@@ -118,14 +118,12 @@ function SelectAllRow({
       <button
         type="button"
         onClick={() =>
-          items.forEach((skill) => {
-            const has = selected.has(skill.slug);
-            if ((!allChecked && !has) || (allChecked && has)) {
-              toggleSkill(skill.slug);
-            }
-          })
+          setSkillsSelected(
+            items.map((skill) => skill.slug),
+            !allChecked
+          )
         }
-        className="text-xs font-medium text-muted-foreground underline-offset-2 hover:underline"
+        className="rounded text-xs font-medium text-muted-foreground underline-offset-2 hover:underline focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
       >
         {allChecked ? "Clear" : "Select all"}
       </button>
@@ -273,14 +271,14 @@ export function SkillPicker({
           onClick={() =>
             setOpenGroups(visibleGroups.map((group) => group.id))
           }
-          className="font-medium text-muted-foreground underline-offset-2 hover:underline"
+          className="rounded font-medium text-muted-foreground underline-offset-2 hover:underline focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
         >
           Expand all
         </button>
         <button
           type="button"
           onClick={() => setOpenGroups([])}
-          className="font-medium text-muted-foreground underline-offset-2 hover:underline"
+          className="rounded font-medium text-muted-foreground underline-offset-2 hover:underline focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
         >
           Collapse all
         </button>
