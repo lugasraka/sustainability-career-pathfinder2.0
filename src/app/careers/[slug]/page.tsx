@@ -22,6 +22,8 @@ import {
 } from "@/components/ui/table";
 import { DemandBadge } from "@/components/explorer/demand-badge";
 import { FrameworkChip } from "@/components/explorer/framework-chip";
+import { CompareToggle } from "@/components/compare/compare-toggle";
+import { CompareTray } from "@/components/compare/compare-tray";
 import { PillarChip } from "@/components/shared/pillar-chip";
 import { PathIcon } from "@/components/shared/path-icon";
 import { Reveal } from "@/components/motion/reveal";
@@ -108,7 +110,7 @@ export default async function CareerPathPage({
   };
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-12">
+    <div className="mx-auto max-w-6xl px-4 pt-12 pb-28">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -153,8 +155,9 @@ export default async function CareerPathPage({
             <p className="mt-1 text-lg text-muted-foreground">{path.tagline}</p>
           </div>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3">
           <DemandBadge demand={path.demand} />
+          <CompareToggle slug={path.slug} size="md" />
           <Link href="/assessment" className={buttonVariants()}>
             Check my match
           </Link>
@@ -378,22 +381,28 @@ export default async function CareerPathPage({
               {related.map((p, i) => (
                 <li key={p.slug}>
                   <Reveal delay={i * 45}>
-                    <Link
-                      href={`/careers/${p.slug}`}
-                      className="group flex items-center gap-3 rounded-xl border p-4 transition-[transform,box-shadow,border-color,background-color] duration-200 ease-out-quart hover:-translate-y-1 hover:border-primary/40 hover:bg-accent/50 hover:shadow-md focus-visible:-translate-y-1 focus-visible:border-primary/40 focus-visible:bg-accent/50 focus-visible:shadow-md focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
-                    >
+                    <div className="group relative flex items-center gap-3 rounded-xl border p-4 transition-[transform,box-shadow,border-color,background-color] duration-200 ease-out-quart hover:-translate-y-1 hover:border-primary/40 hover:bg-accent/50 hover:shadow-md focus-within:-translate-y-1 focus-within:border-primary/40 focus-within:bg-accent/50 focus-within:shadow-md">
                       <PathIcon
                         slug={p.slug}
-                        className="size-9 transition-[transform,background-color] duration-200 ease-out-quart group-hover:scale-110 group-hover:bg-primary/15 group-focus-visible:scale-110 group-focus-visible:bg-primary/15 [&_svg]:size-4"
+                        className="size-9 transition-[transform,background-color] duration-200 ease-out-quart group-hover:scale-110 group-hover:bg-primary/15 group-focus-within:scale-110 group-focus-within:bg-primary/15 [&_svg]:size-4"
                       />
-                      <span className="text-sm font-medium leading-snug">
+                      <span className="flex-1 text-sm leading-snug font-medium">
                         {p.title}
                       </span>
                       <ArrowRightIcon
                         aria-hidden
-                        className="ml-auto size-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-1"
+                        className="size-4 shrink-0 text-muted-foreground transition-transform duration-200 ease-out-quart group-hover:translate-x-1 group-focus-within:translate-x-1"
                       />
-                    </Link>
+                      <CompareToggle slug={p.slug} />
+                      <Link
+                        href={`/careers/${p.slug}`}
+                        className="absolute inset-0 z-[1] rounded-xl focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+                      >
+                        <span className="sr-only">
+                          Open the {p.title} roadmap
+                        </span>
+                      </Link>
+                    </div>
                   </Reveal>
                 </li>
               ))}
@@ -401,6 +410,7 @@ export default async function CareerPathPage({
           </section>
         </Reveal>
       )}
+      <CompareTray />
     </div>
   );
 }

@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import {
   CheckIcon,
   ClipboardListIcon,
+  GitCompareArrowsIcon,
   LinkIcon,
   PrinterIcon,
   RotateCcwIcon,
@@ -13,11 +14,9 @@ import {
 import * as m from "motion/react-m";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { MotionProvider } from "@/components/motion/motion-provider";
-import { computePathMatch } from "@/lib/scoring/compute-path-match";
+import { computeAllMatches } from "@/lib/scoring/compute-all-matches";
 import { listContainer, SPRING_SNAPPY } from "@/lib/motion/presets";
-import { PATHS } from "@/data/paths";
-import { PATH_SKILLS } from "@/data/path-skills";
-import { PATH_ORG_FIT, PATH_REGIONS } from "@/data/path-context";
+import { compareUrl } from "@/lib/compare";
 import { BACKGROUND_META } from "@/lib/pillars";
 import {
   buildShareUrl,
@@ -84,22 +83,13 @@ export function ResultsView() {
 
   const results = React.useMemo(() => {
     if (!background || !targetGeography || !workStylePreference) return [];
-    const input = {
+    return computeAllMatches({
       background,
       yearsExperience,
       selectedSkillSlugs,
       targetGeography,
       workStylePreference,
-    };
-    return PATHS.map((path) =>
-      computePathMatch(input, {
-        slug: path.slug,
-        title: path.title,
-        regions: PATH_REGIONS[path.slug] ?? ["GLOBAL"],
-        orgFit: PATH_ORG_FIT[path.slug] ?? ["corporate", "nonprofit"],
-        requiredSkills: PATH_SKILLS[path.slug] ?? [],
-      })
-    ).sort((a, b) => b.matchScore - a.matchScore);
+    });
   }, [
     background,
     yearsExperience,
@@ -346,6 +336,15 @@ export function ResultsView() {
           >
             <ClipboardListIcon aria-hidden className="size-4" />
             Open your roadmap
+          </Link>
+          <Link
+            href={compareUrl(
+              results.slice(0, 3).map((r) => r.pathSlug)
+            )}
+            className={buttonVariants({ variant: "outline" })}
+          >
+            <GitCompareArrowsIcon aria-hidden className="size-4" />
+            Compare your top 3
           </Link>
           <Link
             href="/careers"

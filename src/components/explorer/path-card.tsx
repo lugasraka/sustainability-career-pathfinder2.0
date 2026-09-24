@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/card";
 import { DemandBadge } from "@/components/explorer/demand-badge";
 import { FrameworkChip } from "@/components/explorer/framework-chip";
+import { CompareToggle } from "@/components/compare/compare-toggle";
 import { PathIcon } from "@/components/shared/path-icon";
 import { cn } from "@/lib/utils";
 import type { CareerPath } from "@/types/pathfinder";
@@ -33,23 +34,24 @@ export function PathCard({
   const delay = Math.min(index, 7) * (animate === "filter" ? 25 : 45);
 
   return (
-    <Link
-      href={`/careers/${path.slug}`}
+    <div
       className={cn(
-        "group block h-full rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+        "group relative h-full rounded-xl transition-[transform,box-shadow] duration-200 ease-out-quart hover:-translate-y-1 hover:shadow-lg focus-within:-translate-y-1 focus-within:shadow-lg",
         animate === "filter" && FILTER,
         animate === "entrance" && ENTRANCE
       )}
       style={
-        animate !== "none" && delay ? { animationDelay: `${delay}ms` } : undefined
+        animate !== "none" && delay
+          ? { animationDelay: `${delay}ms` }
+          : undefined
       }
     >
-      <Card className="flex h-full flex-col gap-3 py-6 transition-[transform,box-shadow] duration-200 ease-out-quart group-hover:-translate-y-1 group-hover:shadow-lg group-hover:ring-primary/40 group-focus-visible:-translate-y-1 group-focus-visible:shadow-lg group-focus-visible:ring-primary/40">
+      <Card className="flex h-full flex-col gap-3 py-6 transition-shadow duration-200 ease-out-quart group-hover:ring-primary/40">
         <CardHeader>
           <div className="flex items-start justify-between gap-2">
             <PathIcon
               slug={path.slug}
-              className="transition-[transform,background-color] duration-200 ease-out-quart group-hover:scale-110 group-hover:bg-primary/15 group-focus-visible:scale-110 group-focus-visible:bg-primary/15"
+              className="transition-[transform,background-color] duration-200 ease-out-quart group-hover:scale-110 group-hover:bg-primary/15"
             />
             <DemandBadge demand={path.demand} />
           </div>
@@ -70,14 +72,23 @@ export function PathCard({
             )}
           </div>
         </CardContent>
-        <CardFooter className="text-sm font-medium text-primary">
-          View path
-          <ArrowRight
-            aria-hidden
-            className="size-4 transition-transform group-hover:translate-x-1 group-focus-visible:translate-x-1"
-          />
+        <CardFooter className="flex items-center justify-between gap-2 text-sm font-medium">
+          <span className="inline-flex items-center gap-1.5 text-primary">
+            View path
+            <ArrowRight
+              aria-hidden
+              className="size-4 transition-transform group-hover:translate-x-1"
+            />
+          </span>
+          <CompareToggle slug={path.slug} />
         </CardFooter>
       </Card>
-    </Link>
+      <Link
+        href={`/careers/${path.slug}`}
+        className="absolute inset-0 z-[1] rounded-xl focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none"
+      >
+        <span className="sr-only">{path.title}</span>
+      </Link>
+    </div>
   );
 }

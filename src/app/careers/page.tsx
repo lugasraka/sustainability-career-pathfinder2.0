@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { CompareTray } from "@/components/compare/compare-tray";
 import { PathExplorer } from "@/components/explorer/path-explorer";
 import { cn } from "@/lib/utils";
 
@@ -13,7 +14,7 @@ export const metadata: Metadata = {
 
 export default function CareersPage() {
   return (
-    <div className="mx-auto max-w-6xl px-4 py-12">
+    <div className="mx-auto max-w-6xl px-4 pt-12 pb-28">
       <header className="mb-10">
         <h1
           className={cn(
@@ -35,6 +36,7 @@ export default function CareersPage() {
         </p>
       </header>
       <PathExplorer />
+      <CompareTray />
     </div>
   );
 }
