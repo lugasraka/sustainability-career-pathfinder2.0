@@ -61,7 +61,13 @@ interface GlossarySection {
   skills: Skill[];
 }
 
-function GlossaryEntry({ skill }: { skill: Skill }) {
+function GlossaryEntry({
+  skill,
+  index = 0,
+}: {
+  skill: Skill;
+  index?: number;
+}) {
   const entry = SKILL_GLOSSARY[skill.slug];
   if (!entry) return null;
 
@@ -72,10 +78,15 @@ function GlossaryEntry({ skill }: { skill: Skill }) {
   return (
     <article
       id={skill.slug}
-      className="glossary-entry scroll-mt-24 rounded-lg border border-border/60 p-4"
+      className="glossary-entry group scroll-mt-24 rounded-lg border border-border/60 p-4 transition-colors hover:border-primary/40 motion-safe:animate-in motion-safe:fade-in motion-safe:duration-150 motion-safe:fill-mode-both motion-safe:ease-out-quart"
+      style={
+        index ? { animationDelay: `${Math.min(index, 4) * 20}ms` } : undefined
+      }
     >
       <div className="flex flex-wrap items-center gap-2">
-        <h3 className="text-sm font-semibold">{skill.name}</h3>
+        <h3 className="text-sm font-semibold transition-colors group-hover:text-primary">
+          {skill.name}
+        </h3>
         <span
           className={cn(
             "rounded-full border px-1.5 py-0.5 text-[10px] font-medium",
@@ -103,7 +114,7 @@ function GlossaryEntry({ skill }: { skill: Skill }) {
               {index > 0 && " · "}
               <Link
                 href={`/careers/${path.slug}`}
-                className="underline-offset-2 hover:text-foreground hover:underline"
+                className="rounded underline-offset-2 transition-colors hover:text-foreground hover:underline focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
               >
                 {path.title}
               </Link>
@@ -393,8 +404,12 @@ export function SkillGlossary() {
                       </AccordionTrigger>
                       <AccordionContent>
                         <div className="space-y-3 pt-1">
-                          {group.skills.map((skill) => (
-                            <GlossaryEntry key={skill.slug} skill={skill} />
+                          {group.skills.map((skill, i) => (
+                            <GlossaryEntry
+                              key={skill.slug}
+                              skill={skill}
+                              index={i}
+                            />
                           ))}
                         </div>
                       </AccordionContent>
@@ -404,8 +419,12 @@ export function SkillGlossary() {
               ) : (
                 <Reveal>
                   <div className="space-y-3">
-                    {section.skills.map((skill) => (
-                      <GlossaryEntry key={skill.slug} skill={skill} />
+                    {section.skills.map((skill, i) => (
+                      <GlossaryEntry
+                        key={skill.slug}
+                        skill={skill}
+                        index={i}
+                      />
                     ))}
                   </div>
                 </Reveal>

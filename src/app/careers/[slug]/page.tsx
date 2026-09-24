@@ -180,9 +180,9 @@ export default async function CareerPathPage({
           <div className="grid gap-3 md:grid-cols-3">
             {JOB_LEVELS.map((level, i) => (
               <Reveal key={level.key} delay={i * 45}>
-                <Card className="gap-3 py-6">
+                <Card className="group gap-3 py-6 transition-[box-shadow] duration-200 ease-out-quart hover:ring-primary/30 hover:shadow-sm">
                   <CardHeader>
-                    <CardTitle className="text-sm text-muted-foreground">
+                    <CardTitle className="text-sm text-muted-foreground transition-colors group-hover:text-primary">
                       {level.label}
                     </CardTitle>
                   </CardHeader>
@@ -306,15 +306,15 @@ export default async function CareerPathPage({
           <div className="grid gap-3 md:grid-cols-2">
             {projectsForPath(path.slug).map((project, i) => (
               <Reveal key={project.title} delay={i * 45}>
-                <Card className="gap-3 py-6">
+                <Card className="group gap-3 py-6 transition-[box-shadow] duration-200 ease-out-quart hover:ring-primary/30 hover:shadow-sm">
                   <CardHeader>
                     <div className="flex items-start justify-between gap-2">
-                      <CardTitle className="text-base leading-snug">
+                      <CardTitle className="text-base leading-snug transition-colors group-hover:text-primary">
                         {project.title}
                       </CardTitle>
                       <span
                         className={cn(
-                          "inline-flex shrink-0 rounded-full border px-2 py-0.5 text-xs font-medium",
+                          "inline-flex shrink-0 rounded-full border px-2 py-0.5 text-xs font-medium transition-transform duration-200 ease-out-quart group-hover:scale-105",
                           DIFFICULTY_META[project.difficulty].className
                         )}
                       >
@@ -323,7 +323,7 @@ export default async function CareerPathPage({
                     </div>
                     <CardDescription>{project.summary}</CardDescription>
                   </CardHeader>
-                  <CardFooter className="text-xs text-muted-foreground">
+                  <CardFooter className="text-xs text-muted-foreground transition-colors group-hover:text-foreground/80">
                     ~{project.estimatedHours} hours of effort
                   </CardFooter>
                 </Card>

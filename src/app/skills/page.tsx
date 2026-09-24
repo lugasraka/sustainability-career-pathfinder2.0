@@ -2,6 +2,10 @@ import type { Metadata } from "next";
 import { SkillGlossary } from "@/components/glossary/skill-glossary";
 import { SKILL_GLOSSARY } from "@/data/skill-glossary";
 import { SKILLS } from "@/data/skills";
+import { cn } from "@/lib/utils";
+
+const ENTER =
+  "motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-3 motion-safe:duration-300 motion-safe:fill-mode-both motion-safe:ease-out-quart";
 
 export const metadata: Metadata = {
   title: "Sustainability Skills Glossary",
@@ -30,10 +34,21 @@ export default function SkillsPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <header className="mb-10">
-        <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
+        <h1
+          className={cn(
+            "text-3xl font-bold tracking-tight sm:text-4xl",
+            ENTER
+          )}
+        >
           Sustainability skill glossary
         </h1>
-        <p className="mt-2 max-w-2xl text-muted-foreground">
+        <p
+          className={cn(
+            "mt-2 max-w-2xl text-muted-foreground",
+            ENTER,
+            "delay-75"
+          )}
+        >
           {SKILLS.length} skills across the 17 career paths, in plain language.
           Each entry explains what the skill is, what it looks like on the job,
           and which paths require it.

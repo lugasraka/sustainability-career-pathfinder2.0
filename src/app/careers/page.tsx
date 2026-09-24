@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
 import { PathExplorer } from "@/components/explorer/path-explorer";
+import { cn } from "@/lib/utils";
+
+const ENTER =
+  "motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-3 motion-safe:duration-300 motion-safe:fill-mode-both motion-safe:ease-out-quart";
 
 export const metadata: Metadata = {
   title: "Explore Sustainability Career Paths",
@@ -11,10 +15,21 @@ export default function CareersPage() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-12">
       <header className="mb-10">
-        <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
+        <h1
+          className={cn(
+            "text-3xl font-bold tracking-tight sm:text-4xl",
+            ENTER
+          )}
+        >
           Explore sustainability career paths
         </h1>
-        <p className="mt-2 max-w-2xl text-muted-foreground">
+        <p
+          className={cn(
+            "mt-2 max-w-2xl text-muted-foreground",
+            ENTER,
+            "delay-75"
+          )}
+        >
           17 specialized pathways. Each one has a skill matrix, recommended
           frameworks, certifications and proof-of-work portfolio projects.
         </p>
