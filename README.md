@@ -6,6 +6,12 @@ A career recommendation engine for sustainability professionals. A four-step dia
 
 ![Sustainability Career Pathfinder 2.0, home page](docs/screenshot-home.png)
 
+## Why this exists
+
+People kept asking me how to break into sustainability. The one-to-one conversations were useful, but I could only have so many. So I built this. It takes four steps, ranks all 17 paths by fit, and shows what you already have and what to learn next.
+
+Built by [Raka Adrianto](https://www.linkedin.com/in/lugasraka/).
+
 ## From 1.0 to 2.0
 
 The original [Sustainability Career Pathfinder](https://sustainabilitypathfinder.lovable.app/) (MVP 1.0) mapped the 17-pathway taxonomy and the roadmap content this project builds on. Version 2.0 is a ground-up rebuild that answers its three biggest gaps: a static quiz, generic results, and no execution path.

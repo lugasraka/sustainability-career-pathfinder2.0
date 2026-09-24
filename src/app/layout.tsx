@@ -24,6 +24,12 @@ export const metadata: Metadata = {
   },
   description:
     "Score your transferable skills against 17 sustainability career pathways. A four-step diagnostic returns weighted matches, skill-gap analysis and a 90-day transition plan.",
+  authors: [
+    {
+      name: "Raka Adrianto",
+      url: "https://www.linkedin.com/in/lugasraka/",
+    },
+  ],
 };
 
 export default function RootLayout({

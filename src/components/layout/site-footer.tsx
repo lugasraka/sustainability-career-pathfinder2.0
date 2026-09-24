@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { GithubIcon } from "@/components/icons/github-icon";
+import { LinkedinIcon } from "@/components/icons/linkedin-icon";
 import { BrandMark } from "@/components/icons/brand-mark";
 
 export function SiteFooter() {
@@ -43,6 +44,18 @@ export function SiteFooter() {
               >
                 My Results
               </Link>
+            </li>
+            <li>
+              <a
+                href="https://www.linkedin.com/in/lugasraka/"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Raka Adrianto on LinkedIn"
+                className="inline-flex items-center gap-1.5 rounded hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
+              >
+                <LinkedinIcon aria-hidden className="size-4" />
+                Built by Raka Adrianto
+              </a>
             </li>
             <li>
               <a
