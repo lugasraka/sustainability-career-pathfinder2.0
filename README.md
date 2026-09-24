@@ -33,6 +33,8 @@ The original [Sustainability Career Pathfinder](https://sustainabilitypathfinder
 - Results: top 3 matches, five-pillar radar, skill delta matrix, entry/mid/senior pivot framing, 90-day plan
 - "Why this match" card: coverage %, gap penalties, credits and bonuses itemized
 - Shareable results: copy a link that re-computes your exact matches for anyone who opens it, or save a one-page PDF via the browser print dialog
+- Path compare: pick 2–3 paths from the explorer tray (or deep-link `?paths=`) for a side-by-side matrix — shared vs unique skills, pillar coverage, your gaps, frameworks, certifications and projects
+- Share previews: dynamic OG cards — shared results render a personalized `88% match · <path>` image, plus branded cards for every path page and the site default
 - Path explorer with live search, demand and pillar filters, removable filter chips
 - Dark mode (light / dark), Inter + Bricolage Grotesque type system
 - Seed data: 17 paths, 129 skills, 68 portfolio projects, 52 certifications
@@ -59,8 +61,8 @@ npm run start    # serve the production build
 
 ## Roadmap
 
-Built: diagnostic, match engine with background credits and region/work-style bonuses, explainable results, path pages
+Built: diagnostic, match engine with background credits and region/work-style bonuses, explainable results, path pages, path compare, dynamic OG share cards
 
-Next: dynamic OG share cards, framework index page, certification ROI directory, proof-of-work starter kit downloads
+Next: framework index page, certification ROI directory, proof-of-work starter kit downloads
 
 Phase 3: Supabase auth, LLM-assisted resume translation, portfolio gallery

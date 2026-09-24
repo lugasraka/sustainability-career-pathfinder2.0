@@ -24,6 +24,14 @@ export const metadata: Metadata = {
   },
   description:
     "Score your transferable skills against 17 sustainability career pathways. A four-step diagnostic returns weighted matches, skill-gap analysis and a 90-day transition plan.",
+  openGraph: {
+    type: "website",
+    siteName: "Sustainability Career Pathfinder 2.0",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+  },
   authors: [
     {
       name: "Raka Adrianto",
