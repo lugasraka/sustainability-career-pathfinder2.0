@@ -1,8 +1,15 @@
 "use client";
 
+import Link from "next/link";
 import * as m from "motion/react-m";
+import { ArrowUpRightIcon } from "lucide-react";
 import { skillName } from "@/data/skills";
-import { listContainer, listItem } from "@/lib/motion/presets";
+import {
+  listContainer,
+  listContainerFast,
+  listItem,
+  listItemTight,
+} from "@/lib/motion/presets";
 import { cn } from "@/lib/utils";
 
 function DeltaColumn({
@@ -26,13 +33,28 @@ function DeltaColumn({
       {items.length === 0 ? (
         <p className="text-sm text-muted-foreground">{emptyHint}</p>
       ) : (
-        <ul className="space-y-1.5 text-sm">
+        <m.ul className="space-y-1.5 text-sm" variants={listContainerFast}>
           {items.map((slug) => (
-            <li key={slug} className="leading-snug">
-              • {skillName(slug)}
-            </li>
+            <m.li key={slug} variants={listItemTight} className="leading-snug">
+              <Link
+                href={`/skills#${slug}`}
+                className="group/skill -mx-1.5 flex items-start gap-2 rounded-md px-1.5 py-0.5 transition-colors hover:bg-foreground/5 focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
+              >
+                <span
+                  aria-hidden
+                  className="mt-[0.55em] size-1 shrink-0 rounded-full bg-current opacity-40 transition-opacity group-hover/skill:opacity-70"
+                />
+                <span className="underline-offset-2 transition-colors group-hover/skill:text-primary group-hover/skill:underline">
+                  {skillName(slug)}
+                </span>
+                <ArrowUpRightIcon
+                  aria-hidden
+                  className="mt-0.5 ml-auto size-3.5 shrink-0 text-primary opacity-0 transition-[opacity,transform] duration-150 group-hover/skill:translate-x-0.5 group-hover/skill:opacity-100 group-focus-visible/skill:translate-x-0.5 group-focus-visible/skill:opacity-100"
+                />
+              </Link>
+            </m.li>
           ))}
-        </ul>
+        </m.ul>
       )}
     </m.section>
   );

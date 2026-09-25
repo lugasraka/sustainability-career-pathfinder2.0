@@ -32,3 +32,19 @@ export const listItem: Variants = {
     transition: { duration: 0.26, ease: EASE_OUT },
   },
 };
+
+export const listContainerFast: Variants = {
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: 0.035, delayChildren: 0.02 },
+  },
+};
+
+export const listItemTight: Variants = {
+  hidden: { opacity: 0, y: 8 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.22, ease: EASE_OUT },
+  },
+};

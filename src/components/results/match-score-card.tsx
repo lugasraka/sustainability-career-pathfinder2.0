@@ -19,10 +19,47 @@ import { ScoreValue } from "@/components/results/score-value";
 import { PathIcon } from "@/components/shared/path-icon";
 import { PATH_BY_SLUG } from "@/data/paths";
 import { PILLAR_META } from "@/lib/pillars";
-import { fadeUp, SPRING_SNAPPY } from "@/lib/motion/presets";
+import { EASE_OUT, fadeUp, SPRING_SNAPPY } from "@/lib/motion/presets";
+import { useCountUp } from "@/lib/hooks/use-count-up";
 import { useInViewOnce } from "@/lib/hooks/use-in-view-once";
 import { cn } from "@/lib/utils";
 import type { PillarScore } from "@/types/pathfinder";
+
+function PillarMiniStat({
+  score,
+  index,
+  start,
+}: {
+  score: PillarScore;
+  index: number;
+  start: boolean;
+}) {
+  const meta = PILLAR_META[score.pillar];
+  const pct = useCountUp(score.pct, {
+    start,
+    delay: 0.12 + index * 0.05,
+    duration: 0.45,
+  });
+
+  return (
+    <li className="rounded-md border px-1 py-1.5 text-center">
+      <m.span
+        aria-hidden
+        initial={{ scaleX: 0 }}
+        animate={start ? { scaleX: 1 } : { scaleX: 0 }}
+        transition={{ duration: 0.3, ease: EASE_OUT, delay: 0.08 + index * 0.05 }}
+        className={cn(
+          "mx-auto mb-1 block h-1 w-6 origin-left rounded-full",
+          meta.dot
+        )}
+      />
+      <m.span className="text-[11px] font-semibold tabular-nums">
+        {pct}
+      </m.span>
+      <span className="sr-only"> {meta.label}</span>
+    </li>
+  );
+}
 
 export function MatchScoreCard({
   pathSlug,
@@ -81,33 +118,30 @@ export function MatchScoreCard({
         </CardHeader>
         <CardContent>
           {expanded ? (
-            <PillarRadar scores={pillarScores} />
+            <div className="space-y-2">
+              <PillarRadar scores={pillarScores} />
+              <p className="text-xs text-muted-foreground">
+                <Link
+                  href="/pillars"
+                  className="underline-offset-2 transition-colors hover:text-foreground hover:underline"
+                >
+                  What the five pillars mean
+                </Link>
+              </p>
+            </div>
           ) : (
             <ul
               className="grid grid-cols-5 gap-1.5"
               aria-label="Pillar coverage summary"
             >
-              {pillarScores.map((s) => {
-                const meta = PILLAR_META[s.pillar];
-                return (
-                  <li
-                    key={s.pillar}
-                    className="rounded-md border px-1 py-1.5 text-center"
-                  >
-                    <span
-                      aria-hidden
-                      className={cn(
-                        "mx-auto mb-1 block h-1 w-6 rounded-full",
-                        meta.dot
-                      )}
-                    />
-                    <span className="text-[11px] font-semibold tabular-nums">
-                      {s.pct}%
-                    </span>
-                    <span className="sr-only"> {meta.label}</span>
-                  </li>
-                );
-              })}
+              {pillarScores.map((s, i) => (
+                <PillarMiniStat
+                  key={s.pillar}
+                  score={s}
+                  index={i}
+                  start={inView}
+                />
+              ))}
             </ul>
           )}
         </CardContent>

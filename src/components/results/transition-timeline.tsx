@@ -3,7 +3,13 @@
 import * as m from "motion/react-m";
 import { certsForPath } from "@/data/certifications";
 import { projectsForPath } from "@/data/portfolio-projects";
-import { EASE_OUT, listContainer, listItem } from "@/lib/motion/presets";
+import {
+  EASE_OUT,
+  listContainer,
+  listContainerFast,
+  listItem,
+  listItemTight,
+} from "@/lib/motion/presets";
 
 const PHASES = [
   {
@@ -55,50 +61,54 @@ export function TransitionTimeline({ pathSlug }: { pathSlug: string }) {
               {phase.description}
             </p>
           )}
-          <ul className="mt-3 space-y-2 text-sm">
+          <m.ul className="mt-3 space-y-2 text-sm" variants={listContainerFast}>
             {i === 0 && (
               <>
                 {beginnerCert && (
-                  <li className="leading-snug">
+                  <m.li variants={listItemTight} className="leading-snug">
                     ✓ Study: {beginnerCert.name} ({beginnerCert.provider})
-                  </li>
+                  </m.li>
                 )}
-                <li className="leading-snug">
+                <m.li variants={listItemTight} className="leading-snug">
                   ✓ Read one flagship report end-to-end for your target sector
-                </li>
+                </m.li>
               </>
             )}
             {i === 1 && intermediate && (
               <>
-                <li className="leading-snug">✓ Build: {intermediate.title}</li>
-                <li className="leading-snug">
+                <m.li variants={listItemTight} className="leading-snug">
+                  ✓ Build: {intermediate.title}
+                </m.li>
+                <m.li variants={listItemTight} className="leading-snug">
                   ✓ Publish the artifact on LinkedIn or a portfolio site
-                </li>
+                </m.li>
               </>
             )}
             {i === 2 && (
               <>
                 {capstone && (
-                  <li className="leading-snug">✓ Ship: {capstone.title}</li>
+                  <m.li variants={listItemTight} className="leading-snug">
+                    ✓ Ship: {capstone.title}
+                  </m.li>
                 )}
                 {advancedCert && (
-                  <li className="leading-snug">
+                  <m.li variants={listItemTight} className="leading-snug">
                     ✓ Optional credential: {advancedCert.name}
-                  </li>
+                  </m.li>
                 )}
-                <li className="leading-snug">
+                <m.li variants={listItemTight} className="leading-snug">
                   ✓ Talk to 5 practitioners; apply to 10 roles
-                </li>
+                </m.li>
               </>
             )}
-          </ul>
+          </m.ul>
           <m.span
             aria-hidden
             variants={{
               hidden: { scaleX: 0 },
               visible: {
                 scaleX: 1,
-                transition: { duration: 0.5, ease: EASE_OUT },
+                transition: { duration: 0.45, ease: EASE_OUT, delay: 0.18 },
               },
             }}
             className="mt-3 block h-1 origin-left rounded-full bg-primary/60"
