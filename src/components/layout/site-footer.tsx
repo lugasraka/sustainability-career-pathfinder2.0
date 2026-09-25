@@ -5,6 +5,7 @@ import { BrandMark } from "@/components/icons/brand-mark";
 
 const SITEMAP = [
   { href: "/careers", label: "Career Paths" },
+  { href: "/pillars", label: "Skill Pillars" },
   { href: "/skills", label: "Glossary" },
   { href: "/assessment", label: "Assessment" },
   { href: "/results", label: "My Results" },

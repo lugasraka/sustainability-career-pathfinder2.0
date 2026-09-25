@@ -24,6 +24,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified,
     },
     {
+      url: `${SITE_URL}/pillars`,
+      changeFrequency: "monthly",
+      priority: 0.8,
+      lastModified,
+    },
+    {
       url: `${SITE_URL}/assessment`,
       changeFrequency: "monthly",
       priority: 0.7,

@@ -27,6 +27,7 @@ import {
   PILLAR_META,
   PILLAR_ORDER,
   REQUIREMENT_META,
+  pillarHref,
 } from "@/lib/pillars";
 import { computeAllMatches } from "@/lib/scoring/compute-all-matches";
 import { cn } from "@/lib/utils";
@@ -318,7 +319,7 @@ export function CompareView({ slugs }: { slugs: string[] }) {
         {PILLAR_ORDER.map((pillar, pi) => (
           <React.Fragment key={pillar}>
             <RowLabel>
-              <PillarChip pillar={pillar} />
+              <PillarChip pillar={pillar} href={pillarHref(pillar)} />
             </RowLabel>
             {rows.map((r, ri) => {
               const value = complete

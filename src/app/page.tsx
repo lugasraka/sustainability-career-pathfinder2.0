@@ -75,8 +75,14 @@ export default function HomePage() {
               "delay-150"
             )}
           >
-            An adaptive diagnostic scores your transferable skills across five
-            pillars. You get a weighted match, a skill gap matrix, and a 90-day
+            An adaptive diagnostic scores your transferable skills across{" "}
+            <Link
+              href="/pillars"
+              className="rounded font-medium text-foreground underline decoration-primary/40 underline-offset-4 transition-colors hover:decoration-primary focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
+            >
+              five pillars
+            </Link>
+            . You get a weighted match, a skill gap matrix, and a 90-day
             transition plan.
           </p>
           <div

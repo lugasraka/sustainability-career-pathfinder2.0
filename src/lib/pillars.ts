@@ -17,8 +17,7 @@ export const PILLAR_ORDER: Pillar[] = [
 export const PILLAR_META: Record<
   Pillar,
   { label: string; dot: string; badge: string; chart: string }
-> = {
-  carbon_accounting: {
+> = {  carbon_accounting: {
     label: "Carbon & Climate Accounting",
     dot: "bg-emerald-500",
     badge:
@@ -54,6 +53,14 @@ export const PILLAR_META: Record<
     chart: "oklch(0.65 0.18 10)",
   },
 };
+
+export function pillarAnchor(pillar: Pillar): string {
+  return pillar.replace(/_/g, "-");
+}
+
+export function pillarHref(pillar: Pillar): string {
+  return `/pillars#${pillarAnchor(pillar)}`;
+}
 
 export const DEMAND_META: Record<
   DemandLevel,

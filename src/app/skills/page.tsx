@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { SkillGlossary } from "@/components/glossary/skill-glossary";
 import { SKILL_GLOSSARY } from "@/data/skill-glossary";
 import { SKILLS } from "@/data/skills";
@@ -52,6 +53,14 @@ export default function SkillsPage() {
           {SKILLS.length} skills across the 17 career paths, in plain language.
           Each entry explains what the skill is, what it looks like on the job,
           and which paths require it.
+        </p>
+        <p className={cn("mt-3 text-sm", ENTER, "delay-150")}>
+          <Link
+            href="/pillars"
+            className="font-medium text-primary underline-offset-4 transition-colors hover:underline focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
+          >
+            How the five pillars fit together
+          </Link>
         </p>
       </header>
       <SkillGlossary />

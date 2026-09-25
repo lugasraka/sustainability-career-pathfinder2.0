@@ -36,6 +36,7 @@ import {
   DIFFICULTY_META,
   PILLAR_ORDER,
   REQUIREMENT_META,
+  pillarHref,
 } from "@/lib/pillars";
 import { cn } from "@/lib/utils";
 import type { Pillar } from "@/types/pathfinder";
@@ -219,7 +220,7 @@ export default async function CareerPathPage({
         {pillarsOfPath.map((pillar) => (
           <div key={pillar} className="rounded-xl border">
             <div className="border-b bg-muted/50 px-4 py-3">
-              <PillarChip pillar={pillar} />
+              <PillarChip pillar={pillar} href={pillarHref(pillar)} />
             </div>
             <Table>
               <TableHeader>
