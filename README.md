@@ -1,6 +1,6 @@
 # Sustainability Career Pathfinder 2.0
 
-A career recommendation engine for sustainability professionals. A four-step diagnostic scores your transferable skills against a five-pillar skill graph, credits the skills your background already proves, and ranks 17 career pathways by weighted fit. Every match comes with a transparent "why this match" breakdown, a skill gap matrix, and a 90-day transition plan. Free, no account required, drafts save on your device.
+A career recommendation engine for sustainability professionals. A 4-step diagnostic evaluates your transferable skills across 17 career pathways, surfaces your exact skill gaps, and generates a personalized 90-day transition plan. Free, no account required, and drafts save locally on your device.
 
 **Live:** [https://sustainability-career-pathfinder20.vercel.app/](https://sustainability-career-pathfinder20.vercel.app/)
 
@@ -8,36 +8,33 @@ A career recommendation engine for sustainability professionals. A four-step dia
 
 ## Why this exists
 
-People kept asking me how to break into sustainability. The one-to-one conversations were useful, but I could only have so many. So I built this. It takes four steps, ranks all 17 paths by fit, and shows what you already have and what to learn next.
+People kept asking me how to break into sustainability. The 1-on-1 conversations were useful, but they didn't scale, so I built this tool to help more people navigate the transition.
 
 Built by [Raka Adrianto](https://www.linkedin.com/in/lugasraka/).
 
 ## From 1.0 to 2.0
 
-The original [Sustainability Career Pathfinder](https://sustainabilitypathfinder.lovable.app/) (MVP 1.0) mapped the 17-pathway taxonomy and the roadmap content this project builds on. Version 2.0 is a ground-up rebuild that answers its three biggest gaps: a static quiz, generic results, and no execution path.
+The original [Sustainability Career Pathfinder](https://sustainabilitypathfinder.lovable.app/) (MVP 1.0) established the 17-pathway taxonomy. Version 2.0 replaces the static quiz and generic recommendations with an explainable diagnostic engine and structured action plans.
 
 | MVP 1.0 | Pathfinder 2.0 |
 | :--- | :--- |
-| Static quiz, opens with demographics | 4-step adaptive diagnostic on background, skills, region and work style |
-| Generic text recommendations | Deterministic weighted scores across all 17 paths |
-| No gap analysis | Skill delta matrix: transferable, critical gaps, upskilling, background credits |
-| No explainability | "Why this match" card showing the score math line by line |
-| Generic roadmaps | 90-day plan built from the matched path's projects and certifications |
+| Static quiz | 4-step adaptive diagnostic (background, skills, region, work style) |
+| Generic text recommendations | Deterministic weighted scoring across 17 paths |
+| No gap analysis | Skill delta matrix: transferable skills, critical gaps, and upskilling needs |
+| Black-box results | Transparent score math itemized line by line |
+| Generic roadmaps | 90-day plan mapped to real projects and certifications |
 
-## What's built
+## Features
 
-- 17 career path profiles, statically generated with JSON-LD breadcrumbs
-- 4-step adaptive assessment: background, technical skills, region and frameworks, working style
-- CV prefill: upload a PDF or paste CV text on Step 1 to auto-detect skills (parsed in your browser; the file never leaves your device), review the matches, then continue the wizard
-- Match engine: weighted skill coverage, mandatory-gap penalty, background skill credits at half weight, region and work-style bonuses, capped at 99
-- Results: top 3 matches, five-pillar radar, skill delta matrix, entry/mid/senior pivot framing, 90-day plan
-- "Why this match" card: coverage %, gap penalties, credits and bonuses itemized
-- Shareable results: copy a link that re-computes your exact matches for anyone who opens it, or save a one-page PDF via the browser print dialog
-- Path compare: pick 2–3 paths from the explorer tray (or deep-link `?paths=`) for a side-by-side matrix — shared vs unique skills, pillar coverage, your gaps, frameworks, certifications and projects
-- Share previews: dynamic OG cards — shared results render a personalized `88% match · <path>` image, plus branded cards for every path page and the site default
-- Path explorer with live search, demand and pillar filters, removable filter chips
-- Dark mode (light / dark), Inter + Bricolage Grotesque type system
-- Seed data: 17 paths, 129 skills, 68 portfolio projects, 52 certifications
+- **17 Pathway profiles:** In-depth pages covering role descriptions, core skills, certifications, and portfolio projects.
+- **4-step diagnostic:** Assesses previous background, technical skills, region and regulatory frameworks, and working style.
+- **Client-side CV prefill:** Upload a PDF or paste resume text to auto-detect skills. Runs entirely in your browser; no files leave your device.
+- **Transparent matching engine:** Uses weighted skill coverage, background credits, region bonuses, and gap penalties with an itemized score breakdown.
+- **Actionable results:** Five-pillar radar graph, skill gap matrix, senior-level pivot framing, and a curated 90-day transition timeline.
+- **Pathway comparison:** Side-by-side comparison of 2–3 paths across shared skills, gaps, frameworks, and certifications.
+- **Shareable results & export:** Share results via state-encoded URLs or export a clean one-page PDF via print view.
+- **Path explorer:** Search and filter paths by pillar, regulatory framework, and market demand.
+- **Comprehensive dataset:** 17 pathways, 129 skills, 68 portfolio projects, and 52 certifications.
 
 ## Tech stack
 
@@ -56,13 +53,10 @@ npm run start    # serve the production build
 
 ## Docs
 
-- `sustainability_career_pathfinder_2_0_plan.md`: product and implementation spec, including the PostgreSQL schema, matching algorithm and differentiation roadmap
-- `career_paths_knowledge_base.md`: content source of truth for all 17 pathways; Appendix A maps each field to the database schema for future Supabase seeding
+- [sustainability_career_pathfinder_2_0_plan.md](sustainability_career_pathfinder_2_0_plan.md): Product and implementation spec, matching algorithm, and database schema.
+- [career_paths_knowledge_base.md](career_paths_knowledge_base.md): Pathway taxonomy, skill mappings, certifications, and project ideas.
 
 ## Roadmap
 
-Built: diagnostic, match engine with background credits and region/work-style bonuses, explainable results, path pages, path compare, dynamic OG share cards
-
-Next: framework index page, certification ROI directory, proof-of-work starter kit downloads
-
-Phase 3: Supabase auth, LLM-assisted resume translation, portfolio gallery
+- **Next:** Framework index page, certification ROI directory, proof-of-work starter kits.
+- **Phase 3:** Supabase auth, LLM-assisted resume translation, portfolio gallery.
