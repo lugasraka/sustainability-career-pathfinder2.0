@@ -60,3 +60,7 @@ npm run start    # serve the production build
 
 - **Next:** Framework index page, certification ROI directory, proof-of-work starter kits.
 - **Phase 3:** Supabase auth, LLM-assisted resume translation, portfolio gallery.
+
+## Feedback
+
+Found a bug, an outdated framework, or a missing path? [Send feedback](https://tally.so/r/eq4zBE). The form takes about a minute and I read every reply. You can also [connect on LinkedIn](https://www.linkedin.com/in/lugasraka/).
