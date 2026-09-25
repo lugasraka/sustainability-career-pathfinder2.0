@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import * as React from "react";
+import { CompareNotice } from "@/components/compare/compare-notice";
 import { CompareTray } from "@/components/compare/compare-tray";
 import { PathExplorer } from "@/components/explorer/path-explorer";
 import { cn } from "@/lib/utils";
@@ -15,6 +17,9 @@ export const metadata: Metadata = {
 export default function CareersPage() {
   return (
     <div className="mx-auto max-w-6xl px-4 pt-12 pb-28">
+      <React.Suspense fallback={null}>
+        <CompareNotice />
+      </React.Suspense>
       <header className="mb-10">
         <h1
           className={cn(

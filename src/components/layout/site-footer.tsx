@@ -10,7 +10,6 @@ const SITEMAP = [
   { href: "/pillars", label: "Skill Pillars" },
   { href: "/skills", label: "Glossary" },
   { href: "/assessment", label: "Assessment" },
-  { href: "/results", label: "My Results" },
 ];
 
 export function SiteFooter() {

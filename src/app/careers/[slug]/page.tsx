@@ -227,7 +227,9 @@ export default async function CareerPathPage({
                 <TableRow>
                   <TableHead>Skill</TableHead>
                   <TableHead>Requirement</TableHead>
-                  <TableHead className="text-right">Weight</TableHead>
+                  <TableHead className="hidden text-right sm:table-cell">
+                    Weight
+                  </TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -260,7 +262,7 @@ export default async function CareerPathPage({
                             {meta.label}
                           </span>
                         </TableCell>
-                        <TableCell className="text-right tabular-nums text-muted-foreground">
+                        <TableCell className="hidden text-right tabular-nums text-muted-foreground sm:table-cell">
                           {r.weight.toFixed(1)}
                         </TableCell>
                       </TableRow>

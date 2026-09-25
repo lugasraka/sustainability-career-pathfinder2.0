@@ -41,7 +41,7 @@ export function StepRegion() {
               key={g.value}
               data-slot="field-label"
               className={cn(
-                "flex cursor-pointer items-start gap-3 rounded-xl border p-4 transition-colors hover:bg-accent/50",
+                "flex min-h-11 cursor-pointer items-start gap-3 rounded-xl border p-4 transition-colors hover:bg-accent/50 focus-within:border-primary focus-within:ring-2 focus-within:ring-ring/50",
                 targetGeography === g.value && "border-primary bg-primary/5"
               )}
             >

@@ -223,7 +223,12 @@ export function CompareView({ slugs }: { slugs: string[] }) {
   };
 
   return (
-    <div className="overflow-x-auto rounded-xl border">
+    <div
+      className="overflow-x-auto rounded-xl border"
+      tabIndex={0}
+      role="region"
+      aria-label="Career path comparison table, scroll horizontally to see all paths"
+    >
       <div
         className="grid"
         style={{

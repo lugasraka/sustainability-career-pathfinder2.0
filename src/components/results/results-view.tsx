@@ -57,6 +57,8 @@ export function ResultsView() {
   const router = useRouter();
   const [mounted, setMounted] = React.useState(false);
   const [shareCopied, setShareCopied] = React.useState(false);
+  const [shareError, setShareError] = React.useState<string | null>(null);
+  const [shareUrl, setShareUrl] = React.useState<string | null>(null);
   const [viewingShared, setViewingShared] = React.useState(false);
   const [pendingShared, setPendingShared] = React.useState<ShareState | null>(
     null
@@ -173,12 +175,16 @@ export function ResultsView() {
       targetGeography,
       workStylePreference,
     });
+    setShareUrl(url);
+    setShareError(null);
     try {
       await navigator.clipboard.writeText(url);
       setShareCopied(true);
       setTimeout(() => setShareCopied(false), 2000);
     } catch {
-      // Clipboard unavailable (e.g. insecure context); no-op.
+      setShareError(
+        "Copy failed — long-press or Ctrl+C this link instead."
+      );
     }
   };
 
@@ -263,7 +269,14 @@ export function ResultsView() {
           </Button>
           <span className="sr-only" aria-live="polite">
             {shareCopied ? "Share link copied to clipboard" : ""}
+            {shareError ? "Share link copy failed" : ""}
           </span>
+          {shareError && shareUrl && (
+            <p role="status" className="w-full text-xs text-muted-foreground">
+              {shareError}{" "}
+              <span className="break-all select-all font-mono">{shareUrl}</span>
+            </p>
+          )}
         </div>
       </header>
 

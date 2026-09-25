@@ -20,7 +20,7 @@ const PHASES = [
   {
     range: "Days 31–60",
     title: "Proof of work",
-    description: "",
+    description: "Build one intermediate project and publish the artifact.",
   },
   {
     range: "Days 61–90",
@@ -40,6 +40,7 @@ export function TransitionTimeline({ pathSlug }: { pathSlug: string }) {
 
   return (
     <m.ol
+      aria-label="90-day transition plan"
       className="grid gap-3 md:grid-cols-3"
       variants={listContainer}
       initial="hidden"
@@ -50,37 +51,43 @@ export function TransitionTimeline({ pathSlug }: { pathSlug: string }) {
         <m.li
           key={phase.range}
           variants={listItem}
-          className="rounded-xl border p-4"
+          className="flex min-h-56 flex-col rounded-xl border p-4"
         >
           <p className="text-xs font-semibold uppercase tracking-wide text-primary">
             {phase.range}
           </p>
           <h4 className="mt-1 text-sm font-semibold">{phase.title}</h4>
           {phase.description && (
-            <p className="mt-1 text-xs text-muted-foreground">
+            <p className="mt-1 min-h-8 text-xs text-muted-foreground">
               {phase.description}
             </p>
           )}
-          <m.ul className="mt-3 space-y-2 text-sm" variants={listContainerFast}>
+          <m.ul
+            className="mt-3 flex-1 space-y-2 text-sm"
+            variants={listContainerFast}
+          >
             {i === 0 && (
               <>
                 {beginnerCert && (
                   <m.li variants={listItemTight} className="leading-snug">
-                    ✓ Study: {beginnerCert.name} ({beginnerCert.provider})
+                    <span aria-hidden>✓ </span>Study: {beginnerCert.name} (
+                    {beginnerCert.provider})
                   </m.li>
                 )}
                 <m.li variants={listItemTight} className="leading-snug">
-                  ✓ Read one flagship report end-to-end for your target sector
+                  <span aria-hidden>✓ </span>Read one flagship report end-to-end
+                  for your target sector
                 </m.li>
               </>
             )}
             {i === 1 && intermediate && (
               <>
                 <m.li variants={listItemTight} className="leading-snug">
-                  ✓ Build: {intermediate.title}
+                  <span aria-hidden>✓ </span>Build: {intermediate.title}
                 </m.li>
                 <m.li variants={listItemTight} className="leading-snug">
-                  ✓ Publish the artifact on LinkedIn or a portfolio site
+                  <span aria-hidden>✓ </span>Publish the artifact on LinkedIn or
+                  a portfolio site
                 </m.li>
               </>
             )}
@@ -88,16 +95,18 @@ export function TransitionTimeline({ pathSlug }: { pathSlug: string }) {
               <>
                 {capstone && (
                   <m.li variants={listItemTight} className="leading-snug">
-                    ✓ Ship: {capstone.title}
+                    <span aria-hidden>✓ </span>Ship: {capstone.title}
                   </m.li>
                 )}
                 {advancedCert && (
                   <m.li variants={listItemTight} className="leading-snug">
-                    ✓ Optional credential: {advancedCert.name}
+                    <span aria-hidden>✓ </span>Optional credential:{" "}
+                    {advancedCert.name}
                   </m.li>
                 )}
                 <m.li variants={listItemTight} className="leading-snug">
-                  ✓ Talk to 5 practitioners; apply to 10 roles
+                  <span aria-hidden>✓ </span>Talk to 5 practitioners; apply to
+                  10 roles
                 </m.li>
               </>
             )}

@@ -14,16 +14,25 @@ export function CompareTray() {
   const router = useRouter();
   const pathname = usePathname();
   const slugs = useCompareStore((s) => s.slugs);
+  const lastEvicted = useCompareStore((s) => s.lastEvicted);
   const remove = useCompareStore((s) => s.remove);
   const clear = useCompareStore((s) => s.clear);
+  const clearEvictionNotice = useCompareStore((s) => s.clearEvictionNotice);
 
   React.useEffect(() => setMounted(true), []);
+
+  React.useEffect(() => {
+    if (!lastEvicted) return;
+    const t = setTimeout(() => clearEvictionNotice(), 4000);
+    return () => clearTimeout(t);
+  }, [lastEvicted, clearEvictionNotice]);
 
   if (!mounted || slugs.length === 0 || pathname === "/careers/compare") {
     return null;
   }
 
   const ready = slugs.length >= COMPARE_MIN;
+  const evictedTitle = lastEvicted ? getPath(lastEvicted)?.title ?? lastEvicted : null;
 
   return (
     <div
@@ -31,7 +40,13 @@ export function CompareTray() {
       role="region"
       aria-label="Compare tray"
     >
-      <div className="pointer-events-auto flex w-full max-w-2xl flex-wrap items-center gap-3 rounded-2xl border bg-background/95 p-3 shadow-lg backdrop-blur motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-2 motion-safe:duration-200 motion-safe:fill-mode-both">
+      <div className="pointer-events-auto flex w-full max-w-2xl flex-col gap-2 rounded-2xl border bg-background/95 p-3 shadow-lg backdrop-blur motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-2 motion-safe:duration-200 motion-safe:fill-mode-both">
+        {evictedTitle && (
+          <p role="status" aria-live="polite" className="text-xs text-muted-foreground">
+            Compare holds max 3 — replaced {evictedTitle} with the latest pick.
+          </p>
+        )}
+        <div className="flex w-full flex-wrap items-center gap-3">
         <div className="flex min-w-0 flex-1 flex-wrap items-center gap-2">
           <span className="text-xs font-semibold text-muted-foreground">
             Compare
@@ -80,6 +95,7 @@ export function CompareTray() {
             <GitCompareArrowsIcon aria-hidden className="size-4" />
             Compare {ready ? `(${slugs.length})` : ""}
           </Button>
+        </div>
         </div>
       </div>
     </div>

@@ -3,6 +3,7 @@ import { ArrowRightIcon } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { PathGrid } from "@/components/explorer/path-grid";
+import { CompareTray } from "@/components/compare/compare-tray";
 import { Reveal } from "@/components/motion/reveal";
 import { PATHS } from "@/data/paths";
 import { cn } from "@/lib/utils";
@@ -150,7 +151,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="border-t bg-muted/30">
+      <section className="border-t bg-muted/30 pb-24">
         <div className="mx-auto max-w-6xl px-4 py-12">
           <h2 className="mb-6 text-xl font-bold tracking-tight">
             How it works
@@ -171,6 +172,7 @@ export default function HomePage() {
           </ol>
         </div>
       </section>
+      <CompareTray />
     </div>
   );
 }

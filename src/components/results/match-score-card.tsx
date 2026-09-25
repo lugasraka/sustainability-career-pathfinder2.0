@@ -2,8 +2,19 @@
 
 import * as React from "react";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import * as m from "motion/react-m";
 import { ArrowRightIcon, ChevronDownIcon } from "lucide-react";
+
+const PillarRadar = dynamic(
+  () => import("@/components/results/pillar-radar").then((mod) => mod.PillarRadar),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="h-72 w-full animate-pulse rounded-xl bg-muted/60" aria-hidden />
+    ),
+  }
+);
 import {
   Card,
   CardContent,
@@ -14,7 +25,6 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { DemandBadge } from "@/components/explorer/demand-badge";
-import { PillarRadar } from "@/components/results/pillar-radar";
 import { ScoreValue } from "@/components/results/score-value";
 import { PathIcon } from "@/components/shared/path-icon";
 import { PATH_BY_SLUG } from "@/data/paths";
@@ -53,7 +63,7 @@ function PillarMiniStat({
           meta.dot
         )}
       />
-      <m.span className="text-[11px] font-semibold tabular-nums">
+      <m.span className="text-xs font-semibold tabular-nums">
         {pct}
       </m.span>
       <span className="sr-only"> {meta.label}</span>
@@ -120,6 +130,17 @@ export function MatchScoreCard({
           {expanded ? (
             <div className="space-y-2">
               <PillarRadar scores={pillarScores} />
+              <table className="sr-only">
+                <caption>Pillar coverage percentages</caption>
+                <tbody>
+                  {pillarScores.map((s) => (
+                    <tr key={s.pillar}>
+                      <th scope="row">{PILLAR_META[s.pillar].label}</th>
+                      <td>{s.pct}%</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
               <p className="text-xs text-muted-foreground">
                 <Link
                   href="/pillars"

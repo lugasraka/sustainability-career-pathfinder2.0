@@ -53,7 +53,7 @@ export async function generateMetadata({
 
 export default async function ComparePage({ searchParams }: ComparePageProps) {
   const slugs = parseCompareParam((await searchParams).paths);
-  if (slugs.length < COMPARE_MIN) redirect("/careers");
+  if (slugs.length < COMPARE_MIN) redirect("/careers?notice=need-2");
 
   const titles = slugs
     .map((slug) => getPath(slug)?.title)

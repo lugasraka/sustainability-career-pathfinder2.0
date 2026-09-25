@@ -3,7 +3,7 @@ import { PATHS } from "@/data/paths";
 import { SITE_URL } from "@/lib/site-url";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const lastModified = new Date();
+  const lastModified = new Date("2026-09-20");
   const staticRoutes: MetadataRoute.Sitemap = [
     {
       url: `${SITE_URL}/`,
@@ -27,12 +27,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${SITE_URL}/pillars`,
       changeFrequency: "monthly",
       priority: 0.8,
-      lastModified,
-    },
-    {
-      url: `${SITE_URL}/assessment`,
-      changeFrequency: "monthly",
-      priority: 0.7,
       lastModified,
     },
   ];

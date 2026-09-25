@@ -72,7 +72,7 @@ export function StepBackground() {
               key={bg}
               data-slot="field-label"
               className={cn(
-                "flex cursor-pointer items-start gap-3 rounded-xl border p-4 transition-colors hover:bg-accent/50",
+                "flex min-h-11 cursor-pointer items-start gap-3 rounded-xl border p-4 transition-colors hover:bg-accent/50 focus-within:border-primary focus-within:ring-2 focus-within:ring-ring/50",
                 background === bg && "border-primary bg-primary/5"
               )}
             >
@@ -116,8 +116,8 @@ export function StepBackground() {
               }
             }}
             aria-required
-            aria-invalid={!yearsExperienceConfirmed}
-            aria-describedby="years-help years-error"
+            aria-invalid={yearsInvalid}
+            aria-describedby={yearsInvalid ? "years-help years-error" : "years-help"}
             className="pr-14"
           />
           <span

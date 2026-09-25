@@ -19,6 +19,7 @@ export async function generateMetadata({
       title: "Your Matches",
       description:
         "Your personalized career matches with match scores, five-pillar radar, skill-delta matrix and a 90-day transition plan.",
+      robots: { index: false, follow: false },
     };
   }
 
@@ -30,6 +31,7 @@ export async function generateMetadata({
   return {
     title,
     description,
+    robots: { index: false, follow: false },
     openGraph: {
       type: "website",
       siteName: "Sustainability Career Pathfinder 2.0",
