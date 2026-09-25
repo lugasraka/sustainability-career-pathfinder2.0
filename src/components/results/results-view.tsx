@@ -25,6 +25,7 @@ import {
 } from "@/lib/share-link";
 import { useAssessmentStore } from "@/store/assessment-store";
 import { MatchScoreCard } from "@/components/results/match-score-card";
+import { ConnectCard } from "@/components/results/connect-card";
 import { ResultsSkeleton } from "@/components/results/results-skeleton";
 import { ScoreValue } from "@/components/results/score-value";
 import { SkillDeltaMatrix } from "@/components/results/skill-delta-matrix";
@@ -354,6 +355,8 @@ export function ResultsView() {
           </Link>
         </div>
       </section>
+
+      {!viewingShared && <ConnectCard pathSlug={top.pathSlug} />}
       </div>
     </MotionProvider>
   );

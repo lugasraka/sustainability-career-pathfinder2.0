@@ -1,7 +1,9 @@
 import Link from "next/link";
+import { MessageSquareIcon } from "lucide-react";
 import { GithubIcon } from "@/components/icons/github-icon";
 import { LinkedinIcon } from "@/components/icons/linkedin-icon";
 import { BrandMark } from "@/components/icons/brand-mark";
+import { feedbackUrl } from "@/lib/contact";
 
 const SITEMAP = [
   { href: "/careers", label: "Career Paths" },
@@ -51,6 +53,18 @@ export function SiteFooter() {
               >
                 <LinkedinIcon aria-hidden className="size-4" />
                 Built by Raka Adrianto
+              </a>
+            </li>
+            <li>
+              <a
+                href={feedbackUrl({ source: "footer" })}
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Send feedback"
+                className="inline-flex items-center gap-1.5 rounded whitespace-nowrap hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
+              >
+                <MessageSquareIcon aria-hidden className="size-4" />
+                Send feedback
               </a>
             </li>
             <li>
